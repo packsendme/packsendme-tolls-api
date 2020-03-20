@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.packsende.api.tolls.config.Connection_Config;
 import com.packsendme.api.tolls.dto.DistanceResponse_Dto;
 import com.packsendme.lib.common.constants.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
@@ -26,8 +25,11 @@ import com.packsendme.lib.common.response.Response;
 @Service
 public class DistancePlaceAPI_Service {
 	
-	@Autowired
-	private Connection_Config configuration;
+	@Value(value = "${google.api.distance}")
+	private String distance_api_url;
+	
+	@Value(value = "${google.api.key}")
+	private String key_api;
 
 	public ResponseEntity<?> loadDistancesCities(String origin, String destination) {
 		Response<DistanceResponse_Dto> responseObj = null;
@@ -48,10 +50,10 @@ public class DistancePlaceAPI_Service {
 			Map<String, String> uriParam = new HashMap<>();
 		    uriParam.put("origin", origin);
 		    uriParam.put("destination", destination);
-		    uriParam.put("key", configuration.key_api);
+		    uriParam.put("key", key_api);
 			
 		    ResponseEntity<String> response = restTemplate.exchange(
-		    		configuration.distance_api_url,
+		    		distance_api_url,
 		    		HttpMethod.GET, 
 		    		request,
                     String.class,
