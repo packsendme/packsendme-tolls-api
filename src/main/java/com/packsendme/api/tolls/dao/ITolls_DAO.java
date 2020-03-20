@@ -1,15 +1,15 @@
 package com.packsendme.api.tolls.dao;
 
 import java.util.List;
+import java.util.Map;
 
-
-public interface ICountryMongo<T> {
+public interface ITolls_DAO<T,D> {
 
 	public T add(T entity);
 	
 	public void addList(List<T> entity);
 
-	public T find(T account);
+	public Map<String, T> find(D object);
 	
 	public List<T> findAll();
 	
@@ -17,7 +17,4 @@ public interface ICountryMongo<T> {
 	
 	public T update(T entity);
 	
-	
-		
-
 }
