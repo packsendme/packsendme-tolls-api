@@ -29,10 +29,10 @@ import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 @ComponentScan("com.packsendme.api.tolls.component")
 public class TollsCost_Service {
 	
-	@Value(value = "${google.api.direction}")
+	@Value(value = "${api.tolls.direction}")
 	public String direction_api_url;
 	
-	@Value(value = "${google.api.key}")
+	@Value(value = "${api.tolls.key}")
 	private String key_api;
 
 	@Autowired
