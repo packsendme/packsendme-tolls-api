@@ -10,18 +10,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import com.packsendme.api.tolls.dao.Tolls_DAO;
 import com.packsendme.api.tolls.dto.TollsResponse_Dto;
 
 @Component
+@ComponentScan("com.packsendme.api.tolls.dao")
 public class AnalyzeData_Component {
 	
-	public final String ANALYSE_PATTERN_TOLLS = "Toll";
-	public final String ANALYSE_PATTERN_COUNTRY = "Entering";
+	private final String ANALYSE_PATTERN_TOLLS = "Toll";
+	private final String ANALYSE_PATTERN_COUNTRY = "Entering";
 	
-	@Autowired
 	private TollsResponse_Dto tollsAnalyzeDto = new TollsResponse_Dto();
 	
 	@Autowired
