@@ -38,8 +38,7 @@ public class TollsCost_Service {
 	@Autowired
 	private AnalyzeData_Component analyzeData_Component;
 	
-	@Autowired
-	private TollsResponse_Dto tollsResponse_Dto; 
+	private TollsResponse_Dto tollsResponse_Dto = new TollsResponse_Dto(); 
 	
 	public ResponseEntity<?> getTollsAnalyze(SimulationRequest_Dto simulation) {
 		Response<TollsResponse_Dto> responseObj = null;
