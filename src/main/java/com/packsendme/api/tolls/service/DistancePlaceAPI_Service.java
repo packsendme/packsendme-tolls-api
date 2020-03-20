@@ -25,10 +25,10 @@ import com.packsendme.lib.common.response.Response;
 @Service
 public class DistancePlaceAPI_Service {
 	
-	@Value(value = "${google.api.distance}")
+	@Value(value = "${api.tolls.distance}")
 	private String distance_api_url;
 	
-	@Value(value = "${google.api.key}")
+	@Value(value = "${api.tolls.key}")
 	private String key_api;
 
 	public ResponseEntity<?> loadDistancesCities(String origin, String destination) {
