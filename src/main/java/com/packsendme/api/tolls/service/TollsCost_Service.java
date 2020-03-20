@@ -79,6 +79,11 @@ public class TollsCost_Service {
 		    	JSONParser parser = new JSONParser();
 		    	JSONObject jsonObject = (JSONObject) parser.parse(jsonBodyS);
 
+			    System.out.println(" ===================================");
+			    System.out.println(" STATUS "+ jsonObject.get("status"));
+			    System.out.println(" ===================================");
+
+			    
 		    	if(jsonObject.get("status").equals("OK")) {
 		    		tollsResponse_Dto = analyzeData_Component.analyzeJsonTolls(jsonObject);
 
