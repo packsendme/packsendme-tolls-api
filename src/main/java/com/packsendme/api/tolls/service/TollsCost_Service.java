@@ -58,6 +58,15 @@ public class TollsCost_Service {
 		    uriParam.put("travel_mode", "DRIVING");
 		    uriParam.put("avoidTolls", "false");
 			
+		    System.out.println(" ===================================");
+		    System.out.println(" origin "+ simulation.address_origin);
+		    System.out.println(" destination "+ simulation.address_destination);
+		    System.out.println(" key "+ key_api);
+		    System.out.println(" travel_mode "+ "DRIVING");
+		    System.out.println(" avoidTolls "+ "false");
+		    System.out.println(" ===================================");
+		    
+		    
 		    ResponseEntity<String> response = restTemplate.exchange(
 		    		direction_api_url,
 		    		HttpMethod.GET, 
@@ -69,9 +78,15 @@ public class TollsCost_Service {
 		    	jsonBodyS = response.getBody();
 		    	JSONParser parser = new JSONParser();
 		    	JSONObject jsonObject = (JSONObject) parser.parse(jsonBodyS);
-		    	
+
 		    	if(jsonObject.get("status") == "OK") {
 		    		tollsResponse_Dto = analyzeData_Component.analyzeJsonTolls(jsonObject);
+
+				    System.out.println(" ===================================");
+				    System.out.println(" tollsResponse_Dto "+ tollsResponse_Dto.tolls.size());
+				    System.out.println(" ===================================");
+
+		    		
 		    		responseObj = new Response<TollsResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), tollsResponse_Dto);
 					return new ResponseEntity<>(responseObj, HttpStatus.ACCEPTED);
 		    	}
