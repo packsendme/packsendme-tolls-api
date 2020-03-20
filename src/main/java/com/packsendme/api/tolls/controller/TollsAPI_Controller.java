@@ -14,7 +14,7 @@ import com.packsendme.api.tolls.service.CountryService;
 
 
 @RestController
-public class CountryController {
+public class TollsAPI_Controller {
 
 	
 	@Autowired
