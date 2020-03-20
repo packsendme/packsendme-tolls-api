@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: packsendme-country-server
+  cloud:
+    config:
+      uri: http://192.241.133.13:9090
+      
