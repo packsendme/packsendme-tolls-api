@@ -13,7 +13,7 @@ pipeline {
         stage('Git Checkout Repositorio') {
             steps {
                 git branch: 'develop',
-                url: 'https://github.com/packsendme/packsendme-tolls-api-server.git'
+                url: 'https://github.com/packsendme/packsendme-tolls-api.git'
             }
         }
         stage('Java Build') {
