@@ -36,7 +36,10 @@ public class Tolls_DAO implements ITolls_DAO<TollsCountry_Model,TollsResponse_Dt
 		Map<String, TollsCountry_Model> costsTolls = new HashMap<String, TollsCountry_Model>();
 		try {
 			for(Map.Entry<String, Integer> entry : object.tolls.entrySet()) {
+				System.out.println(" find by "+ entry.getKey());
 				tollModel = tolls_Repository.findCostTollByNameContry(entry.getKey());
+				System.out.println(" tollModel by "+ tollModel.toll_cost);
+
 				costsTolls.put(tollModel.name_country, tollModel);
 			}
 			return costsTolls;
