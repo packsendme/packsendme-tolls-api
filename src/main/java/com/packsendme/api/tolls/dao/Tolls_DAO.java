@@ -39,7 +39,6 @@ public class Tolls_DAO implements ITolls_DAO<TollsCountry_Model,TollsResponse_Dt
 				System.out.println(" find by "+ entry.getKey());
 				tollModel = tolls_Repository.findCostTollByNameContry(entry.getKey());
 				System.out.println(" tollModel by "+ tollModel.toll_cost);
-
 				costsTolls.put(tollModel.name_country, tollModel);
 			}
 			return costsTolls;

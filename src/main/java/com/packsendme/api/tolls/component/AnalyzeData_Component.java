@@ -101,7 +101,7 @@ public class AnalyzeData_Component {
 			endMatch = matcher.end();
 		}
 		String new2 = StringUtils.substring(new1, startMatch, new1.length() + endMatch);
-		return StringUtils.substringAfter(new2, ANALYSE_PATTERN_COUNTRY);
+		return StringUtils.substringAfter(new2, ANALYSE_PATTERN_COUNTRY).trim();
 	}
 
 	// Country Origin destination
@@ -117,7 +117,7 @@ public class AnalyzeData_Component {
 			endMatch = matcher.end();
 		}
 		String new2 = StringUtils.substring(contain, startMatch, contain.length() + endMatch);
-		String new3 = StringUtils.substringAfter(new2, ",");
+		String new3 = StringUtils.substringAfter(new2, ",").trim();
 		return new3;
 	}
 }
