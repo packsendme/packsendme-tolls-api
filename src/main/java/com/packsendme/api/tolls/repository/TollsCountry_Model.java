@@ -19,7 +19,7 @@ public class TollsCountry_Model implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	public int id;
+	public Object id;
 	public String name_country;
 	public Double toll_cost;
 	public String currency_cost;
