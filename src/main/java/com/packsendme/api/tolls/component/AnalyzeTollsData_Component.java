@@ -9,53 +9,65 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import com.packsendme.api.tolls.dao.Tolls_DAO;
-import com.packsendme.api.tolls.dto.TollsResponse_Dto;
+import com.packsendme.api.tolls.repository.TollsCosts_Model;
+import com.packsendme.lib.tolls.response.dto.TollsCostsResponse_Dto;
+import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 
 @Component
 @ComponentScan("com.packsendme.api.tolls.dao")
-public class AnalyzeData_Component {
+public class AnalyzeTollsData_Component {
 	
 	private final String ANALYSE_PATTERN_TOLLS = "Toll";
 	private final String ANALYSE_PATTERN_COUNTRY = "Entering";
 	
-	private TollsResponse_Dto tollsAnalyzeDto = new TollsResponse_Dto();
+	private final String ANALYSE_ARRAY_ROUTES = "routes";
+	private final String ANALYSE_ARRAY_LEGS = "legs";
+	private final String ANALYSE_ELEMENT_ADDRESS = "start_address";
+	private final String ANALYSE_ARRAY_STEPS = "steps";
+	private final String ANALYSE_ELEMENT_HTML = "html_instructions";
+
+
+
+	
+	private TollsResponse_Dto tollsCosts_Dto = new TollsResponse_Dto();
 	
 	@Autowired
 	private Tolls_DAO toll_dao;
 	
 	public TollsResponse_Dto analyzeJsonTolls(JSONObject jsonObject){
 		int tolls = 0;
-        Map<String, Integer> mapsAnalise = new HashMap<String, Integer>();
+        Map<String, Integer> countryTolls_map = new HashMap<String, Integer>();
         String countryName = null;
 
         try {
-	        JSONArray jsonRoutes = (JSONArray) jsonObject.get("routes");
+	        JSONArray jsonRoutes = (JSONArray) jsonObject.get(ANALYSE_ARRAY_ROUTES);
 			Iterator<JSONObject> itRoutes = jsonRoutes.iterator();
 			JSONArray jsonSteps = null;
 			while (itRoutes.hasNext()) {
 				JSONObject jsonLegs = itRoutes.next();
-				JSONArray jsonArrayLegs = (JSONArray) jsonLegs.get("legs");  
+				JSONArray jsonArrayLegs = (JSONArray) jsonLegs.get(ANALYSE_ARRAY_LEGS);  
 			    
 			    for (Iterator itLegs = jsonArrayLegs.iterator(); itLegs.hasNext();) {
 			    	JSONObject jsonStepsX = (JSONObject) itLegs.next();
-        	    	String countryOrigin = jsonStepsX.get("start_address").toString();
+        	    	String countryOrigin = jsonStepsX.get(ANALYSE_ELEMENT_ADDRESS).toString();
         	    	countryName = subStringCountryOrigin(countryOrigin);
-			    	jsonSteps = (JSONArray) jsonStepsX.get("steps");  //steps   
+			    	jsonSteps = (JSONArray) jsonStepsX.get(ANALYSE_ARRAY_STEPS);  //steps   
 				}
 			    
 				for (Iterator itSteps = jsonSteps.iterator(); itSteps.hasNext();) {
 				    JSONObject jsonHtmlInst = (JSONObject) itSteps.next();
-				    String scheme = ((String) jsonHtmlInst.get("html_instructions")).trim();
+				    String scheme = ((String) jsonHtmlInst.get(ANALYSE_ELEMENT_HTML)).trim();
 				    
 				    // Analyze Change Country in Direction JSON-GOOGLE
 				    if (analyzeContain(scheme,ANALYSE_PATTERN_COUNTRY) == true){
 				    	if(tolls > 0) {
-				    		mapsAnalise.put(countryName, tolls);
+				    		countryTolls_map.put(countryName, tolls);
 				    		tolls = 0;
 				    	}
 			    		countryName = subStringCountry(scheme);
@@ -66,16 +78,16 @@ public class AnalyzeData_Component {
 				    }
 				}
 		    	if(tolls > 0) {
-		    		mapsAnalise.put(countryName, tolls);
+		    		countryTolls_map.put(countryName, tolls);
 		    	}
 			}
-			if (mapsAnalise.size() > 0) {
-				tollsAnalyzeDto.status_tolls = true;
-				tollsAnalyzeDto.tolls = mapsAnalise;
+			if (countryTolls_map.size() > 0) {
+				tollsCosts_Dto.status_tolls = true;
+				tollsCosts_Dto.countryTolls = countryTolls_map;
 				//Analyze-TollCosts by Country / Find Costs Tolls
-				tollsAnalyzeDto.costsTolls = toll_dao.find(tollsAnalyzeDto);
+				tollsCosts_Dto.costsTolls = toll_dao.find(tollsCosts_Dto);
 			}
-			return tollsAnalyzeDto;
+			return tollsCosts_Dto;
         }
         catch (Exception e) {
         	e.printStackTrace();

@@ -2,7 +2,6 @@ package com.packsendme.api.tolls.repository;
 
 import java.io.Serializable;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 @Document(collection = "tolls_country_pks")
 @Getter
 @Setter
-public class TollsCountry_Model implements Serializable {
+public class TollsCosts_Model implements Serializable {
 
 	/**
 	 * 

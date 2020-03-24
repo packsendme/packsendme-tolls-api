@@ -1,0 +1,31 @@
+{
+        "status_tolls": true,
+        "countryTolls": {
+            "Brazil": 9,
+            "Bolivia": 11,
+            "Peru": 4
+        },
+        "costsTolls": {
+            "Brazil": {
+                "name_country": "Brazil",
+                "toll_cost": 11.0,
+                "currency_cost": "R$",
+                "currency_desc": "Real",
+                "status": "Active"
+            },
+            "Bolivia": {
+                "name_country": "Bolivia",
+                "toll_cost": 11.0,
+                "currency_cost": "Bs",
+                "currency_desc": "Peso Boliviano",
+                "status": "Active"
+            },
+            "Peru": {
+                "name_country": "Peru",
+                "toll_cost": 11.0,
+                "currency_cost": "S/",
+                "currency_desc": "Sol",
+                "status": "Active"
+            }
+        }
+}
