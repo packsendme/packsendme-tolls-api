@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.component;
+package com.packsendme.api.google.component;
 
 import java.util.Collections;
 import java.util.HashMap;

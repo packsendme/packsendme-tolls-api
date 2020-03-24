@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.dao;
+package com.packsendme.api.google.dao;
 
 import java.util.List;
 import java.util.Map;

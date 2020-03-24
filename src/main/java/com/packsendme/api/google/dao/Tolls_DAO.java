@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.dao;
+package com.packsendme.api.google.dao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.MongoClientException;
-import com.packsendme.api.tolls.repository.ITolls_Repository;
-import com.packsendme.api.tolls.repository.TollsCosts_Model;
+import com.packsendme.api.google.repository.ITolls_Repository;
+import com.packsendme.api.google.repository.TollsCosts_Model;
 import com.packsendme.lib.tolls.response.dto.TollsCostsResponse_Dto;
 import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 

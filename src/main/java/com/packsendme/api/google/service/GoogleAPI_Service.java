@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.service;
+package com.packsendme.api.google.service;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.packsendme.api.tolls.component.AnalyzeDistanceData_Component;
-import com.packsendme.api.tolls.component.AnalyzeTollsData_Component;
-import com.packsendme.api.tolls.component.ConnectionGoogleAPI_Component;
+import com.packsendme.api.google.component.AnalyzeDistanceData_Component;
+import com.packsendme.api.google.component.AnalyzeTollsData_Component;
+import com.packsendme.api.google.component.ConnectionGoogleAPI_Component;
 import com.packsendme.lib.common.constants.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
 import com.packsendme.lib.distance.response.dto.DistanceResponse_Dto;
@@ -19,7 +19,7 @@ import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto; 
 
 @Service
-@ComponentScan("com.packsendme.api.tolls.component")
+@ComponentScan("com.packsendme.api.google.component")
 public class GoogleAPI_Service {
 	
 	@Autowired

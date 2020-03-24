@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.component;
+package com.packsendme.api.google.component;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;

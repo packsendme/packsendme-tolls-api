@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.component;
+package com.packsendme.api.google.component;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import com.packsendme.api.tolls.dao.Tolls_DAO;
-import com.packsendme.api.tolls.repository.TollsCosts_Model;
+import com.packsendme.api.google.dao.Tolls_DAO;
+import com.packsendme.api.google.repository.TollsCosts_Model;
 import com.packsendme.lib.tolls.response.dto.TollsCostsResponse_Dto;
 import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 
 @Component
-@ComponentScan("com.packsendme.api.tolls.dao")
+@ComponentScan("com.packsendme.api.google.dao")
 public class AnalyzeTollsData_Component {
 	
 	private final String ANALYSE_PATTERN_TOLLS = "Toll";
