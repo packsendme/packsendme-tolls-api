@@ -17,7 +17,7 @@ import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 
 
 @RestController
-@RequestMapping("/packsendme")
+@RequestMapping("/api/google")
 public class GoogleAPI_Controller {
 
 	@Autowired
@@ -29,7 +29,7 @@ public class GoogleAPI_Controller {
 		return api_Service.getDistancesAPI(simulation);
 	}
 
-	@PostMapping("/costs")
+	@PostMapping("/tolls")
 	public ResponseEntity<?> getCostsTolls(
 			@Validated @RequestBody SimulationRequest_Dto simulation) throws JsonProcessingException, IOException {
 		return api_Service.getTollsAPI(simulation);
