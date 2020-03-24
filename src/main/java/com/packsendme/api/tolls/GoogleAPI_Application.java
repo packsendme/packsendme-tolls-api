@@ -6,10 +6,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class TollsAPI_Application {
+public class GoogleAPI_Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TollsAPI_Application.class, args);
+		SpringApplication.run(GoogleAPI_Application.class, args);
 	}
 }
 

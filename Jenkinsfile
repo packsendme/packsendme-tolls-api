@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NAME_CONTAINER = "tolls-api-psm"
-        NAME_IMAGE = "tollsapi-image-psm:1"
+        NAME_CONTAINER = "google-api-psm"
+        NAME_IMAGE = "google-api-image-psm:1"
         ID_CONTAINER = null 
         PORT_CONTAINER = "9099:9099"
     }
@@ -13,7 +13,7 @@ pipeline {
         stage('Git Checkout Repositorio') {
             steps {
                 git branch: 'develop',
-                url: 'https://github.com/packsendme/packsendme-tolls-api.git'
+                url: 'https://github.com/packsendme/packsendme-google-api.git'
             }
         }
         stage('Java Build') {
