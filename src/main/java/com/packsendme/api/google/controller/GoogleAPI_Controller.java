@@ -17,7 +17,7 @@ import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 
 
 @RestController
-@RequestMapping("/api/google/")
+@RequestMapping("/api/")
 public class GoogleAPI_Controller {
 
 	@Autowired
