@@ -30,7 +30,7 @@ public class ConnectionGoogleAPI_Component {
 	@Value(value = "${api.google.tolls}")
 	public String tolls_api_url;
 	
-	@Value(value = "${api.tolls.key}")
+	@Value(value = "${api.google.key}")
 	private String key_api;
 	
 	@Value(value = "${api.google.distance}")
