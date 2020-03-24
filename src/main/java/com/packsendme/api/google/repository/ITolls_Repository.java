@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.repository;
+package com.packsendme.api.google.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

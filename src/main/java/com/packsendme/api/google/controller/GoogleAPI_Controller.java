@@ -1,4 +1,4 @@
-package com.packsendme.api.tolls.controller;
+package com.packsendme.api.google.controller;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.packsendme.api.tolls.service.GoogleAPI_Service;
+import com.packsendme.api.google.service.GoogleAPI_Service;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 
 
