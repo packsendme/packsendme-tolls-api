@@ -91,7 +91,7 @@ public class AnalyzeTollsData_Component {
 		        	distanceUnique = Double.parseDouble(distanceUniqueS);
 			    	
 		    		// Find Distance
-		    		distanceResponse_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START);
+		    		distanceResponse_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START, simulation);
 			    	
         	    	String countryOrigin = jsonStepsX.get(ANALYSE_ELEMENT_ADDRESS).toString();
         	    	countryName = subStringCountryOrigin(countryOrigin);
@@ -105,7 +105,7 @@ public class AnalyzeTollsData_Component {
 					// Find Distance
 				    if(countryNameChange != null) {
 					    if(countryNameChange.equals(countryName)) {
-			    			distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START);
+			    			distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulation);
 			    			tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
 			    		}
 				    }
@@ -116,7 +116,7 @@ public class AnalyzeTollsData_Component {
 				    		tollsCountry_Dto.name_country = countryName;
 				    		tollsCountry_Dto.toll_amount = tolls;
 				    		// Find Distance
-				    		distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END);
+				    		distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
 				    		tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
 				    		//Find Tolls Price by Country
 				    		tollsCosts_Dto = toll_dao.find(countryName);
