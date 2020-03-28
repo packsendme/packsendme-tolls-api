@@ -1,7 +1,6 @@
 package com.packsendme.api.google.dao;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ITolls_DAO<T,D> {
 
