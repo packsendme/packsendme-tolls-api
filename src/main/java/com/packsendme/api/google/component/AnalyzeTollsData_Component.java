@@ -173,6 +173,9 @@ public class AnalyzeTollsData_Component {
     	
     	String latilongFrom = latlong_map.get("lat").toString();
     	latilongFrom = latilongFrom+","+latlong_map.get("lng").toString();
+    	
+    	System.out.println(" getLatLongForDistance "+ latilongFrom);
+    	
     	count++;
     	latlongHistory_map.put(count, latilongFrom);
     	
@@ -183,6 +186,7 @@ public class AnalyzeTollsData_Component {
     		try {
     			distanceResponse_dto = getDistanceGoogleParser(simulation);
     			latlongHistory_map = null;
+    			count = 0;
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
