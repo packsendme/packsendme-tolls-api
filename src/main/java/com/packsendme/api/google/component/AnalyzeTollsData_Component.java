@@ -3,6 +3,7 @@ package com.packsendme.api.google.component;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -175,9 +176,17 @@ public class AnalyzeTollsData_Component {
     	latilongFrom = latilongFrom+","+latlong_map.get("lng").toString();
     	
     	System.out.println(" getLatLongForDistance "+ latilongFrom);
-    	
     	count++;
+    	System.out.println(" count "+ count);
+
     	latlongHistory_map.put(count, latilongFrom);
+    	
+    	 Iterator<Entry<Integer, String>> itr1 = latlongHistory_map.entrySet().iterator(); 
+         while (itr1.hasNext()) { 
+             Map.Entry pair = itr1.next(); 
+             System.out.println(pair.getKey() + " : " + pair.getValue());
+         } 
+		
     	
     	if(latlongHistory_map.size() == 2) {
     		simulation.address_origin = latlongHistory_map.get(1);
