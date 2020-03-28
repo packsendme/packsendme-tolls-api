@@ -53,8 +53,7 @@ public class AnalyzeTollsData_Component {
 	@Autowired
 	private ConnectionGoogleAPI_Component connectionGoogle;
 	
-	@Autowired
-	private DistanceResponse_Dto distanceResponse_dto;
+	private DistanceResponse_Dto distanceResponse_dto = new DistanceResponse_Dto();
 
 	
 	@Autowired
