@@ -62,7 +62,7 @@ public class AnalyzeTollsData_Component {
 	private Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
 	private int count = 0;
 	
-	public TollsResponse_Dto analyzeJsonTolls(JSONObject jsonObject){
+	public TollsResponse_Dto analyzeJsonTolls(JSONObject jsonObject, SimulationRequest_Dto simulation){
 		int tolls = 0;
         String countryName = null, countryNameChange = null;
         String lati_long_start = null, lati_long_end = null, distanceUniqueS = null;
@@ -159,7 +159,7 @@ public class AnalyzeTollsData_Component {
 		}
     }
 	
-	public DistanceResponse_Dto getLatLongForDistance(JSONObject object, String patterns) {
+	public DistanceResponse_Dto getLatLongForDistance(JSONObject object, String patterns, SimulationRequest_Dto simulationDto) {
     	Map latlong_map = null;
 		DistanceResponse_Dto distanceResponse_dto = null;
     	SimulationRequest_Dto simulation = new SimulationRequest_Dto();
@@ -179,6 +179,7 @@ public class AnalyzeTollsData_Component {
     	if(latlongHistory_map.size() == 2) {
     		simulation.address_origin = latlongHistory_map.get(1);
     		simulation.address_destination = latlongHistory_map.get(2);
+    		simulation.unity_measurement_distance_txt = simulationDto.unity_measurement_distance_txt;
     		try {
     			distanceResponse_dto = getDistanceGoogleParser(simulation);
     			latlongHistory_map = null;
