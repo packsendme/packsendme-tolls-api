@@ -17,6 +17,8 @@ import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 @Component("Tolls_DAO")
 public class Tolls_DAO implements ITolls_DAO<TollsCostsResponse_Dto,TollsResponse_Dto> {
 
+	private final Double average_price_toll_default = 0.0;
+	
 	@Autowired
 	ITolls_Repository tolls_Repository;
 
@@ -33,17 +35,21 @@ public class Tolls_DAO implements ITolls_DAO<TollsCostsResponse_Dto,TollsRespons
 	}
 
 	@Override
-	public Map<String, TollsCostsResponse_Dto> find(TollsResponse_Dto object) {
-		Map<String, TollsCostsResponse_Dto> costsTolls = new HashMap<String, TollsCostsResponse_Dto>();
-		ModelMapper modelMapper = new ModelMapper();
+	public TollsCostsResponse_Dto find(String object) {
+		TollsCostsResponse_Dto costsTolls_dto = new TollsCostsResponse_Dto();
 		try {
-			for(Map.Entry<String, Integer> entry : object.countryTolls.entrySet()) {
-				System.out.println(" find by "+ entry.getKey());
-				TollsCosts_Model tollModel = tolls_Repository.findCostTollByNameContry(entry.getKey());
-				TollsCostsResponse_Dto tollsCostsResponse_Dto = modelMapper.map(tollModel, TollsCostsResponse_Dto.class);
-				costsTolls.put(tollsCostsResponse_Dto.name_country, tollsCostsResponse_Dto);
+			TollsCosts_Model tollModel = tolls_Repository.findCostTollByNameContry(object);
+			if(tollModel != null) {
+				costsTolls_dto.average_price_toll = tollModel.toll_cost;
+				costsTolls_dto.currency_price = tollModel.currency_cost;
+				costsTolls_dto.status = tollModel.status;
 			}
-			return costsTolls;
+			else{
+				costsTolls_dto.average_price_toll = average_price_toll_default;
+				costsTolls_dto.currency_price = null;
+				costsTolls_dto.status = false;
+			}
+			return costsTolls_dto;
 		}
 		catch (MongoClientException e ) {
 			e.printStackTrace();
@@ -68,6 +74,8 @@ public class Tolls_DAO implements ITolls_DAO<TollsCostsResponse_Dto,TollsRespons
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+ 
 
 	
 }

@@ -9,7 +9,7 @@ public interface ITolls_DAO<T,D> {
 	
 	public void addList(List<T> entity);
 
-	public Map<String, T> find(D object);
+	public T find(String object);
 	
 	public List<T> findAll();
 	

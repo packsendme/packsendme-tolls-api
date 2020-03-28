@@ -23,7 +23,7 @@ import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 public class GoogleAPI_Service {
 	
 	@Autowired
-	private AnalyzeTollsData_Component analyzeData_Component;
+	private AnalyzeTollsData_Component analyzeTolls_Component;
 	
 	@Autowired
 	private AnalyzeDistanceData_Component analyzeDistance_Component;
@@ -49,7 +49,7 @@ public class GoogleAPI_Service {
 		    	JSONObject jsonObject = (JSONObject) parser.parse(jsonBodyS);
 			    
 		    	if(jsonObject.get("status").equals("OK")) {
-		    		tollsResponse_Dto = analyzeData_Component.analyzeJsonTolls(jsonObject);
+		    		tollsResponse_Dto = analyzeTolls_Component.analyzeJsonTolls(jsonObject);
 		    		responseObj = new Response<TollsResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), tollsResponse_Dto);
 					return new ResponseEntity<>(responseObj, HttpStatus.ACCEPTED);
 		    	}

@@ -21,6 +21,6 @@ public class TollsCosts_Model implements Serializable {
 	public Double toll_cost;
 	public String currency_cost;
 	public String currency_desc;
-	public String status;
+	public boolean status;
 	
 }
