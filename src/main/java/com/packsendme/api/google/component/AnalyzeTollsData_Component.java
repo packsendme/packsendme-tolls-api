@@ -194,7 +194,7 @@ public class AnalyzeTollsData_Component {
     		simulation.unity_measurement_distance_txt = simulationDto.unity_measurement_distance_txt;
     		try {
     			distanceResponse_dto = getDistanceGoogleParser(simulation);
-    			latlongHistory_map = null;
+    			latlongHistory_map = new HashMap<Integer, String>();
     			count = 0;
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
