@@ -49,7 +49,7 @@ public class GoogleAPI_Service {
 		    	JSONObject jsonObject = (JSONObject) parser.parse(jsonBodyS);
 			    
 		    	if(jsonObject.get("status").equals("OK")) {
-		    		tollsResponse_Dto = analyzeTolls_Component.analyzeJsonTolls(jsonObject);
+		    		tollsResponse_Dto = analyzeTolls_Component.analyzeJsonTolls(jsonObject, simulation);
 		    		responseObj = new Response<TollsResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), tollsResponse_Dto);
 					return new ResponseEntity<>(responseObj, HttpStatus.ACCEPTED);
 		    	}
