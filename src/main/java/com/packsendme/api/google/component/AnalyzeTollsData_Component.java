@@ -103,10 +103,12 @@ public class AnalyzeTollsData_Component {
 				    String scheme = ((String) jsonHtmlInst.get(ANALYSE_ELEMENT_HTML)).trim();
 				    
 					// Find Distance
-		    		if(countryNameChange.equals(countryName)) {
-		    			distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START);
-		    			tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
-		    		}
+				    if(countryNameChange != null) {
+					    if(countryNameChange.equals(countryName)) {
+			    			distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START);
+			    			tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
+			    		}
+				    }
  
 				    // Analyze Change Country in Direction JSON-GOOGLE
 				    if (analyzeContain(scheme,ANALYSE_PATTERN_COUNTRY) == true){
