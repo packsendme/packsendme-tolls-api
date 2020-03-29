@@ -107,8 +107,8 @@ public class AnalyzeTollsData_Component {
 				    if(countryNameChange != null) {
 					    if(countryNameChange.equals(countryName)) {
 			    			distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulation);
-			    			System.out.println(" Distance Change Country "+ distanceResponse_dto.distance);
-			    			tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
+			    			//System.out.println(" Distance Change Country "+ distanceResponse_dto.distance);
+			    			//tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
 			    		}
 				    }
  
