@@ -18,18 +18,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.packsend.api.google.dto.TollsCosts_Dto;
 import com.packsendme.api.google.dao.Tolls_DAO;
 import com.packsendme.lib.common.constants.GoogleAPI_Constants;
 import com.packsendme.lib.distance.response.dto.DistanceResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
-import com.packsendme.lib.tolls.response.dto.TollsCostsResponse_Dto;
 import com.packsendme.lib.tolls.response.dto.TollsCountryResponse_Dto;
 import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 
 @Component
 @ComponentScan("com.packsendme.api.google.dao")
 public class AnalyzeTollsData_Component {
-	
+
+	private final Double AVERAGE_PRICE_DEFAULT = 0.0;
+
 	private final String ANALYSE_PATTERN_TOLLS = "Toll";
 	private final String ANALYSE_PATTERN_COUNTRY = "Entering";
 	private final String ANALYSE_PATTERN_START = "Start";
@@ -54,7 +56,7 @@ public class AnalyzeTollsData_Component {
 	@Autowired
 	private ConnectionGoogleAPI_Component connectionGoogle;
 	
-	private DistanceResponse_Dto distanceResponse_dto = new DistanceResponse_Dto();
+	private DistanceResponse_Dto distance_dto = new DistanceResponse_Dto();
 
 	
 	@Autowired
@@ -68,11 +70,11 @@ public class AnalyzeTollsData_Component {
         String countryName = null, countryNameChange = null;
         String lati_long_start = null, lati_long_end = null, distanceUniqueS = null;
         double distanceUnique = 0.0;
+        JSONObject jsonHtmlInstLast = null;
         
-
+        TollsCosts_Dto tollsCosts_Dto = null;
   		Map<String, TollsCountryResponse_Dto> countryTolls_map = new HashMap<String, TollsCountryResponse_Dto>();
-  		TollsCountryResponse_Dto tollsCountry_Dto = new TollsCountryResponse_Dto();
-        TollsCostsResponse_Dto tollsCosts_Dto = new TollsCostsResponse_Dto(); 
+  		TollsCountryResponse_Dto tollsCountry_Dto = null;
         TollsResponse_Dto tollsResponse_Dto = new TollsResponse_Dto();
 
         try {
@@ -86,13 +88,13 @@ public class AnalyzeTollsData_Component {
 			    for (Iterator itLegs = jsonArrayLegs.iterator(); itLegs.hasNext();) {
 			    	JSONObject jsonStepsX = (JSONObject) itLegs.next();
 			    	
-			    	// GET DISTANCE
+			    	// GET TOTAL DISTANCE
 		    		Map distance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
 		        	distanceUniqueS = distance_map.get(ANALYSE_ELEMENT_VALUE).toString();
 		        	distanceUnique = Double.parseDouble(distanceUniqueS);
 			    	
-		    		// Find Distance
-		    		distanceResponse_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START, simulation);
+		    		// Find Distance (Origin Location)
+		        	distance_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START, simulation);
 			    	
         	    	String countryOrigin = jsonStepsX.get(ANALYSE_ELEMENT_ADDRESS).toString();
         	    	countryName = subStringCountryOrigin(countryOrigin);
@@ -106,26 +108,26 @@ public class AnalyzeTollsData_Component {
 					// Find Distance
 				    if(countryNameChange != null) {
 					    if(countryNameChange.equals(countryName)) {
-			    			distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulation);
-			    			//System.out.println(" Distance Change Country "+ distanceResponse_dto.distance);
-			    			//tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
+					    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulation);
+					    	countryNameChange = null;
 			    		}
 				    }
  
-				    // Analyze Change Country in Direction JSON-GOOGLE
+				    // Change Country in Direction JSON-GOOGLE
 				    if (analyzeContain(scheme,ANALYSE_PATTERN_COUNTRY) == true){
 				    	if(tolls > 0) {
-				    		tollsCountry_Dto.name_country = countryName;
-				    		tollsCountry_Dto.toll_amount = tolls;
 				    		// Find Distance
-				    		distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
-				    		tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
+				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
 				    		//Find Tolls Price by Country
 				    		tollsCosts_Dto = toll_dao.find(countryName);
-				    		tollsCountry_Dto.costsTolls = tollsCosts_Dto;
-				    		countryTolls_map.put(countryName, tollsCountry_Dto);
+				    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,tolls,tollsCosts_Dto.average_price_toll,distance_dto.distance,tollsCosts_Dto.currency_price);
 				    		tolls = 0;
 				    	}
+				    	else {
+				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
+				    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance_dto.distance,null);
+				    	}
+			    		countryTolls_map.put(countryName, tollsCountry_Dto);
 			    		countryName = subStringCountry(scheme);
 			    		countryNameChange = countryName;
 				    }
@@ -133,15 +135,21 @@ public class AnalyzeTollsData_Component {
 				    if (analyzeContain(scheme,ANALYSE_PATTERN_TOLLS) == true){
 				    	tolls++;
 				    }
+				    jsonHtmlInstLast = jsonHtmlInst;
 				}
-		    	if(tolls > 0) {
-		    		tollsCountry_Dto.name_country = countryName;
-		    		tollsCountry_Dto.toll_amount = tolls;
+				
+				if(tolls > 0) {
 		    		// Find Distance
-		    		tollsCountry_Dto.distance_country = distanceUnique;
+		    		distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
 		    		//Find Tolls Price by Country
 		    		tollsCosts_Dto = toll_dao.find(countryName);
-		    		tollsCountry_Dto.costsTolls = tollsCosts_Dto;
+		    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,tolls,tollsCosts_Dto.average_price_toll,distance_dto.distance,tollsCosts_Dto.currency_price);
+		    		countryTolls_map.put(countryName, tollsCountry_Dto);
+				}
+		    	else {
+		    		// Find Distance
+		    		distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
+		    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance_dto.distance,null);
 		    		countryTolls_map.put(countryName, tollsCountry_Dto);
 		    	}
 			}
@@ -161,7 +169,7 @@ public class AnalyzeTollsData_Component {
 		}
     }
 	
-	public DistanceResponse_Dto getLatLongForDistance(JSONObject object, String patterns, SimulationRequest_Dto simulationDto) {
+ 	public DistanceResponse_Dto getLatLongForDistance(JSONObject object, String patterns, SimulationRequest_Dto simulationDto) {
     	Map latlong_map = null;
 		DistanceResponse_Dto distanceResponse_dto = null;
     	SimulationRequest_Dto simulation = new SimulationRequest_Dto();
@@ -195,7 +203,11 @@ public class AnalyzeTollsData_Component {
     		simulation.unity_measurement_distance_txt = simulationDto.unity_measurement_distance_txt;
     		try {
     			distanceResponse_dto = getDistanceGoogleParser(simulation);
-    	    	System.out.println(" distance "+ distanceResponse_dto.distance);
+    			System.out.println(" ================================================== ");
+	    			System.out.println(" address_origin "+ simulation.address_origin);
+	    			System.out.println(" address_destination "+ simulation.address_destination);
+	    	    	System.out.println(" distance "+ distanceResponse_dto.distance);
+    			System.out.println(" ================================================== ");
 
     			latlongHistory_map = new HashMap<Integer, String>();
     			count = 0;

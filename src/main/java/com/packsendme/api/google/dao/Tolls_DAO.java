@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mongodb.MongoClientException;
+import com.packsend.api.google.dto.TollsCosts_Dto;
 import com.packsendme.api.google.repository.ITolls_Repository;
 import com.packsendme.api.google.repository.TollsCosts_Model;
-import com.packsendme.lib.tolls.response.dto.TollsCostsResponse_Dto;
 import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 
 @Component("Tolls_DAO")
-public class Tolls_DAO implements ITolls_DAO<TollsCostsResponse_Dto,TollsResponse_Dto> {
+public class Tolls_DAO implements ITolls_DAO<TollsCosts_Dto,TollsResponse_Dto> {
 
 	private final Double average_price_toll_default = 0.0;
 	
@@ -20,20 +20,20 @@ public class Tolls_DAO implements ITolls_DAO<TollsCostsResponse_Dto,TollsRespons
 	ITolls_Repository tolls_Repository;
 
 	@Override
-	public TollsCostsResponse_Dto add(TollsCostsResponse_Dto entity) {
+	public TollsCosts_Dto add(TollsCosts_Dto entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void addList(List<TollsCostsResponse_Dto> entity) {
+	public void addList(List<TollsCosts_Dto> entity) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public TollsCostsResponse_Dto find(String object) {
-		TollsCostsResponse_Dto costsTolls_dto = new TollsCostsResponse_Dto();
+	public TollsCosts_Dto find(String object) {
+		TollsCosts_Dto costsTolls_dto = new TollsCosts_Dto();
 		try {
 			TollsCosts_Model tollModel = tolls_Repository.findCostTollByNameContry(object);
 			if(tollModel != null) {
@@ -55,24 +55,22 @@ public class Tolls_DAO implements ITolls_DAO<TollsCostsResponse_Dto,TollsRespons
 	}
 
 	@Override
-	public List<TollsCostsResponse_Dto> findAll() {
+	public List<TollsCosts_Dto> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void remove(TollsCostsResponse_Dto entity) {
+	public void remove(TollsCosts_Dto entity) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public TollsCostsResponse_Dto update(TollsCostsResponse_Dto entity) {
+	public TollsCosts_Dto update(TollsCosts_Dto entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
- 
-
-	
+		
 }
