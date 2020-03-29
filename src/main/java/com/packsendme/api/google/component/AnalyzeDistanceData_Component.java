@@ -1,5 +1,9 @@
 package com.packsendme.api.google.component;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +20,7 @@ public class AnalyzeDistanceData_Component {
 	private final String ANALYSE_NODE_ELEMENTS = "elements";
 	private final String ANALYSE_ELEMENTS_STATUS = "status";
 	private final String ANALYSE_ELEMENTS_DISTANCE = "distance";
-	private final String ANALYSE_ELEMENTS_VALUE = "value";
+	private final String ANALYSE_ELEMENTS_TEXT = "text";
 
 	
 	public DistanceResponse_Dto analyzeJsonDistance(JSONObject jsonObject, SimulationRequest_Dto simulation) {
@@ -36,15 +40,16 @@ public class AnalyzeDistanceData_Component {
 			            JsonNode distanceNode = elementObj.path(ANALYSE_ELEMENTS_DISTANCE);
 			            distanceResponse_dto.setOrigin(simulation.address_origin);
 			            distanceResponse_dto.setDestination(simulation.address_destination);
+			            String distanceS = distanceNode.path(ANALYSE_ELEMENTS_TEXT).asText();
+			            distanceResponse_dto.setDistance(getDistanceParse(distanceS));
 			            distanceResponse_dto.setMeasureUnit(simulation.unity_measurement_distance_txt);
-			            distanceResponse_dto.setDistance(distanceNode.path(ANALYSE_ELEMENTS_VALUE).asDouble());
 			            distanceResponse_dto.setStatus(status);
 					}
 					else {
 			            distanceResponse_dto.setOrigin(simulation.address_origin);
 			            distanceResponse_dto.setDestination(simulation.address_destination);
 			            distanceResponse_dto.setMeasureUnit(simulation.unity_measurement_distance_txt);
-			            distanceResponse_dto.setDistance(0.0);
+			            distanceResponse_dto.setDistance(0);
 			            distanceResponse_dto.setStatus(status);
 					}
 				}	
@@ -57,5 +62,11 @@ public class AnalyzeDistanceData_Component {
 		}
 	}
 	
-
+	public int getDistanceParse(String contain) {
+		int result = 0;
+        String distanceS =StringUtils.substring(contain, 0, contain.length() - 2);
+        result = Integer.parseInt(distanceS);
+        return result;
+	}
+	
 }
