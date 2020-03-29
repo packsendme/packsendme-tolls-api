@@ -107,6 +107,7 @@ public class AnalyzeTollsData_Component {
 				    if(countryNameChange != null) {
 					    if(countryNameChange.equals(countryName)) {
 			    			distanceResponse_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulation);
+			    			System.out.println(" Distance Change Country "+ distanceResponse_dto.distance);
 			    			tollsCountry_Dto.distance_country = distanceResponse_dto.getDistance();
 			    		}
 				    }
@@ -187,7 +188,7 @@ public class AnalyzeTollsData_Component {
              System.out.println(pair.getKey() + " : " + pair.getValue());
          } 
 		
-    	
+    	System.out.println(" SIZE MAP "*+ latlongHistory_map.size());
     	if(latlongHistory_map.size() == 2) {
     		simulation.address_origin = latlongHistory_map.get(1);
     		simulation.address_destination = latlongHistory_map.get(2);
