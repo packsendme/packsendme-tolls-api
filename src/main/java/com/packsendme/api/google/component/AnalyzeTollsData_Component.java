@@ -188,7 +188,7 @@ public class AnalyzeTollsData_Component {
              System.out.println(pair.getKey() + " : " + pair.getValue());
          } 
 		
-    	System.out.println(" SIZE MAP "*+ latlongHistory_map.size());
+    	System.out.println(" SIZE MAP "+ latlongHistory_map.size());
     	if(latlongHistory_map.size() == 2) {
     		simulation.address_origin = latlongHistory_map.get(1);
     		simulation.address_destination = latlongHistory_map.get(2);
