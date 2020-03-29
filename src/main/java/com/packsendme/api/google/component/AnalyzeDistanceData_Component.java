@@ -1,8 +1,5 @@
 package com.packsendme.api.google.component;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
@@ -62,11 +59,9 @@ public class AnalyzeDistanceData_Component {
 		}
 	}
 	
-	public int getDistanceParse(String contain) {
-		int result = 0;
-        String distanceS =StringUtils.substring(contain, 0, contain.length() - 2);
-        result = Integer.parseInt(distanceS);
-        return result;
+	public double getDistanceParse(String contain) {
+        String distanceS = StringUtils.substring(contain, 0, contain.length() - 2);
+        return Double.parseDouble(distanceS);
 	}
 	
 }
