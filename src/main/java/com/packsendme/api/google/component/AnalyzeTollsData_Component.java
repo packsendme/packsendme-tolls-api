@@ -3,7 +3,6 @@ package com.packsendme.api.google.component;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,8 +67,6 @@ public class AnalyzeTollsData_Component {
 	public TollsResponse_Dto analyzeJsonTolls(JSONObject jsonObject, SimulationRequest_Dto simulation){
 		int tolls = 0;
         String countryName = null, countryNameChange = null;
-        String lati_long_start = null, lati_long_end = null, distanceUniqueS = null;
-        double distanceUnique = 0.0;
         JSONObject jsonHtmlInstLast = null;
         
         TollsCosts_Dto tollsCosts_Dto = null;
@@ -88,12 +85,7 @@ public class AnalyzeTollsData_Component {
 			    for (Iterator itLegs = jsonArrayLegs.iterator(); itLegs.hasNext();) {
 			    	JSONObject jsonStepsX = (JSONObject) itLegs.next();
 			    	
-			    	// GET TOTAL DISTANCE
-		    		Map distance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
-		        	distanceUniqueS = distance_map.get(ANALYSE_ELEMENT_VALUE).toString();
-		        	distanceUnique = Double.parseDouble(distanceUniqueS);
-			    	
-		    		// Find Distance (Origin Location)
+			    	// Find Distance (Origin Location)
 		        	distance_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START, simulation);
 			    	
         	    	String countryOrigin = jsonStepsX.get(ANALYSE_ELEMENT_ADDRESS).toString();
@@ -183,20 +175,9 @@ public class AnalyzeTollsData_Component {
     	
     	String latilongFrom = latlong_map.get("lat").toString();
     	latilongFrom = latilongFrom+","+latlong_map.get("lng").toString();
-    	
-    	System.out.println(" getLatLongForDistance "+ latilongFrom);
     	count++;
-    	System.out.println(" count "+ count);
-
     	latlongHistory_map.put(count, latilongFrom);
     	
-    	 Iterator<Entry<Integer, String>> itr1 = latlongHistory_map.entrySet().iterator(); 
-         while (itr1.hasNext()) { 
-             Map.Entry pair = itr1.next(); 
-             System.out.println(pair.getKey() + " : " + pair.getValue());
-         } 
-		
-    	System.out.println(" SIZE MAP "+ latlongHistory_map.size());
     	if(latlongHistory_map.size() == 2) {
     		simulation.address_origin = latlongHistory_map.get(1);
     		simulation.address_destination = latlongHistory_map.get(2);
