@@ -9,10 +9,9 @@ import com.mongodb.MongoClientException;
 import com.packsend.api.google.dto.TollsCosts_Dto;
 import com.packsendme.api.google.repository.ITolls_Repository;
 import com.packsendme.api.google.repository.TollsCosts_Model;
-import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 
 @Component("Tolls_DAO")
-public class Tolls_DAO implements ITolls_DAO<TollsCosts_Dto,TollsResponse_Dto> {
+public class Tolls_DAO implements ITolls_DAO<TollsCosts_Dto> {
 
 	private final Double average_price_toll_default = 0.0;
 	

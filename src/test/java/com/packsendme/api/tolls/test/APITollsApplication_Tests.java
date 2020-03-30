@@ -3,14 +3,14 @@ package com.packsendme.api.tolls.test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import org.springframework.util.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
 
 @SpringBootConfiguration
 @RunWith(SpringRunner.class)

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.packsendme.lib.distance.response.dto.DistanceResponse_Dto;
+import com.packsendme.lib.simulation.distance.response.dto.DistanceResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 
 @Component
