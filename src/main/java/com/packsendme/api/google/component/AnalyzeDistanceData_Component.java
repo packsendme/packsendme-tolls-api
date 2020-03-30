@@ -60,8 +60,8 @@ public class AnalyzeDistanceData_Component {
 	}
 	
 	public double getDistanceParse(String contain) {
-        String distanceS = StringUtils.substring(contain, 0, contain.length() - 2);
-        return Double.parseDouble(distanceS);
+		String formatS = contain.replace(",", ".");
+        return Double.parseDouble(formatS);
 	}
 	
 }
