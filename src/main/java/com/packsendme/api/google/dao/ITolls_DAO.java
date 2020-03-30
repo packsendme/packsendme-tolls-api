@@ -2,7 +2,7 @@ package com.packsendme.api.google.dao;
 
 import java.util.List;
 
-public interface ITolls_DAO<T,D> {
+public interface ITolls_DAO<T> {
 
 	public T add(T entity);
 	

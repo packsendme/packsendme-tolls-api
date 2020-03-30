@@ -20,14 +20,14 @@ import org.springframework.stereotype.Component;
 import com.packsend.api.google.dto.TollsCosts_Dto;
 import com.packsendme.api.google.dao.Tolls_DAO;
 import com.packsendme.lib.common.constants.GoogleAPI_Constants;
-import com.packsendme.lib.distance.response.dto.DistanceResponse_Dto;
+import com.packsendme.lib.simulation.distance.response.dto.DistanceResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
-import com.packsendme.lib.tolls.response.dto.TollsCountryResponse_Dto;
-import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto;
+import com.packsendme.lib.simulation.roadway.response.dto.RoadwayCostsResponse_Dto;
+import com.packsendme.lib.simulation.roadway.response.dto.TollsCountryResponse_Dto;
 
 @Component
 @ComponentScan("com.packsendme.api.google.dao")
-public class AnalyzeTollsData_Component {
+public class AnalyzeCostsData_Component {
 
 	private final Double AVERAGE_PRICE_DEFAULT = 0.0;
 
@@ -45,6 +45,8 @@ public class AnalyzeTollsData_Component {
 	private final String ANALYSE_ELEMENT_HTML = "html_instructions";
 	private final String ANALYSE_ELEMENT_STARTLOCATION = "start_location";
 	private final String ANALYSE_ELEMENT_ENDLOCATION = "end_location";
+	private final String ANALYSE_ELEMENT_DISTANCE = "distance";
+	private final String ANALYSE_ELEMENT_TEXT = "text";
 
 	
 	@Autowired
@@ -62,7 +64,7 @@ public class AnalyzeTollsData_Component {
 	private Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
 	private int count = 0;
 	
-	public TollsResponse_Dto analyzeJsonTolls(JSONObject jsonObject, SimulationRequest_Dto simulation){
+	public RoadwayCostsResponse_Dto analyzeJsonTolls(JSONObject jsonObject, SimulationRequest_Dto simulation){
 		int tolls = 0;
         String countryName = null, countryNameChange = null;
         JSONObject jsonHtmlInstLast = null;
@@ -70,7 +72,7 @@ public class AnalyzeTollsData_Component {
         TollsCosts_Dto tollsCosts_Dto = null;
   		Map<String, TollsCountryResponse_Dto> countryTolls_map = new HashMap<String, TollsCountryResponse_Dto>();
   		TollsCountryResponse_Dto tollsCountry_Dto = null;
-        TollsResponse_Dto tollsResponse_Dto = new TollsResponse_Dto();
+  		RoadwayCostsResponse_Dto tollsResponse_Dto = new RoadwayCostsResponse_Dto();
 
         try {
 	        JSONArray jsonRoutes = (JSONArray) jsonObject.get(ANALYSE_ARRAY_ROUTES);
@@ -82,6 +84,11 @@ public class AnalyzeTollsData_Component {
 				
 			    for (Iterator itLegs = jsonArrayLegs.iterator(); itLegs.hasNext();) {
 			    	JSONObject jsonStepsX = (JSONObject) itLegs.next();
+			    	
+			    	// GET TOTAL DISTANCE
+			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
+			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_TEXT).toString();
+			    	tollsResponse_Dto.distance_total = getDistanceParse(distanceS);
 			    	
 			    	// Find Distance (Origin Location)
 		        	distance_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START, simulation);
@@ -256,5 +263,11 @@ public class AnalyzeTollsData_Component {
 		String new2 = StringUtils.substring(contain, startMatch, contain.length() + endMatch);
 		String new3 = StringUtils.substringAfter(new2, ",").trim();
 		return new3;
+	}
+	
+	public double getDistanceParse(String contain) {
+        String distanceS = StringUtils.substring(contain, 0, contain.length() - 2);
+    	String formatDistance = distanceS.replace(",", ".");
+        return Double.parseDouble(formatDistance);
 	}
 }

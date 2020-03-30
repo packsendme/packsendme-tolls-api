@@ -10,20 +10,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.packsendme.api.google.component.AnalyzeDistanceData_Component;
-import com.packsendme.api.google.component.AnalyzeTollsData_Component;
+import com.packsendme.api.google.component.AnalyzeCostsData_Component;
 import com.packsendme.api.google.component.ConnectionGoogleAPI_Component;
 import com.packsendme.lib.common.constants.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
-import com.packsendme.lib.distance.response.dto.DistanceResponse_Dto;
+import com.packsendme.lib.simulation.distance.response.dto.DistanceResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
-import com.packsendme.lib.tolls.response.dto.TollsResponse_Dto; 
+import com.packsendme.lib.simulation.roadway.response.dto.RoadwayCostsResponse_Dto; 
 
 @Service
 @ComponentScan("com.packsendme.api.google.component")
 public class GoogleAPI_Service {
 	
 	@Autowired
-	private AnalyzeTollsData_Component analyzeTolls_Component;
+	private AnalyzeCostsData_Component analyzeTolls_Component;
 	
 	@Autowired
 	private AnalyzeDistanceData_Component analyzeDistance_Component;
@@ -35,10 +35,10 @@ public class GoogleAPI_Service {
 	private final String API_TOLLS = "GOOGLE_PLACE_TOLLS"; 
 
 	
-	private com.packsendme.lib.tolls.response.dto.TollsResponse_Dto tollsResponse_Dto = new TollsResponse_Dto(); 
+	private RoadwayCostsResponse_Dto tollsResponse_Dto = new RoadwayCostsResponse_Dto(); 
 	
 	public ResponseEntity<?> getTollsAPI(SimulationRequest_Dto simulation) {
-		Response<TollsResponse_Dto> responseObj = null;
+		Response<RoadwayCostsResponse_Dto> responseObj = null;
 		String jsonBodyS = null;
 		try {
 		    ResponseEntity<String> response = connectionAPI.connectionGoogleAPI(simulation, API_TOLLS);
@@ -50,11 +50,11 @@ public class GoogleAPI_Service {
 			    
 		    	if(jsonObject.get("status").equals("OK")) {
 		    		tollsResponse_Dto = analyzeTolls_Component.analyzeJsonTolls(jsonObject, simulation);
-		    		responseObj = new Response<TollsResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), tollsResponse_Dto);
+		    		responseObj = new Response<RoadwayCostsResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), tollsResponse_Dto);
 					return new ResponseEntity<>(responseObj, HttpStatus.ACCEPTED);
 		    	}
 		    	else {
-					responseObj = new Response<TollsResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), null);
+					responseObj = new Response<RoadwayCostsResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), null);
 					return new ResponseEntity<>(responseObj, HttpStatus.BAD_REQUEST);
 		    	}
 			}
@@ -64,7 +64,7 @@ public class GoogleAPI_Service {
 		}
 		catch (Exception e ) {
 			e.printStackTrace();
-			responseObj = new Response<TollsResponse_Dto>(0,HttpExceptionPackSend.FAIL_EXECUTION.getAction(), null);
+			responseObj = new Response<RoadwayCostsResponse_Dto>(0,HttpExceptionPackSend.FAIL_EXECUTION.getAction(), null);
 			return new ResponseEntity<>(responseObj, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
