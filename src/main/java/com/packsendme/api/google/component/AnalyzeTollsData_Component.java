@@ -45,8 +45,6 @@ public class AnalyzeTollsData_Component {
 	private final String ANALYSE_ELEMENT_HTML = "html_instructions";
 	private final String ANALYSE_ELEMENT_STARTLOCATION = "start_location";
 	private final String ANALYSE_ELEMENT_ENDLOCATION = "end_location";
-	private final String ANALYSE_ELEMENT_DISTANCE = "distance";
-	private final String ANALYSE_ELEMENT_VALUE = "value";
 
 	
 	@Autowired
@@ -112,12 +110,14 @@ public class AnalyzeTollsData_Component {
 				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
 				    		//Find Tolls Price by Country
 				    		tollsCosts_Dto = toll_dao.find(countryName);
-				    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,tolls,tollsCosts_Dto.average_price_toll,distance_dto.distance,tollsCosts_Dto.currency_price);
+				    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,tolls,distance_dto.distance,distance_dto.measureUnit,
+				    				tollsCosts_Dto.average_price_toll,tollsCosts_Dto.currency_price);
 				    		tolls = 0;
 				    	}
 				    	else {
 				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
-				    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance_dto.distance,null);
+				    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,0,distance_dto.distance,distance_dto.measureUnit,
+				    				AVERAGE_PRICE_DEFAULT,null);
 				    	}
 			    		countryTolls_map.put(countryName, tollsCountry_Dto);
 			    		countryName = subStringCountry(scheme);
@@ -135,13 +135,15 @@ public class AnalyzeTollsData_Component {
 		    		distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
 		    		//Find Tolls Price by Country
 		    		tollsCosts_Dto = toll_dao.find(countryName);
-		    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,tolls,tollsCosts_Dto.average_price_toll,distance_dto.distance,tollsCosts_Dto.currency_price);
+		    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,tolls,distance_dto.distance,distance_dto.measureUnit,
+		    				tollsCosts_Dto.average_price_toll,tollsCosts_Dto.currency_price);
 		    		countryTolls_map.put(countryName, tollsCountry_Dto);
 				}
 		    	else {
 		    		// Find Distance
 		    		distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
-		    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance_dto.distance,null);
+		    		tollsCountry_Dto = new TollsCountryResponse_Dto(countryName,0,distance_dto.distance,distance_dto.measureUnit,
+		    				AVERAGE_PRICE_DEFAULT,null);
 		    		countryTolls_map.put(countryName, tollsCountry_Dto);
 		    	}
 			}
