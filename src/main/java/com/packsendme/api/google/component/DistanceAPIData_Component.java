@@ -1,16 +1,16 @@
 package com.packsendme.api.google.component;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.packsendme.lib.simulation.distance.response.dto.DistanceResponse_Dto;
+import com.packsend.api.google.dto.GoogleAPIDistanceResponse_Dto;
+import com.packsendme.api.google.utility.SeparationElementTools;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 
 @Component
-public class AnalyzeDistanceData_Component {
+public class DistanceAPIData_Component {
 	
 	
 	private final String ANALYSE_NODE_ROWS = "rows";
@@ -20,8 +20,11 @@ public class AnalyzeDistanceData_Component {
 	private final String ANALYSE_ELEMENTS_TEXT = "text";
 
 	
-	public DistanceResponse_Dto analyzeJsonDistance(JSONObject jsonObject, SimulationRequest_Dto simulation) {
-		DistanceResponse_Dto distanceResponse_dto = new DistanceResponse_Dto();
+	public GoogleAPIDistanceResponse_Dto getDistanceDataByJson (JSONObject jsonObject, SimulationRequest_Dto simulation) {
+		GoogleAPIDistanceResponse_Dto distanceResponse_dto = new GoogleAPIDistanceResponse_Dto();
+		SeparationElementTools separationElementObj = new SeparationElementTools();
+
+		
 		try {
 			//create ObjectMapper instance
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -35,19 +38,19 @@ public class AnalyzeDistanceData_Component {
 					
 					if(status.equals("OK")) {
 			            JsonNode distanceNode = elementObj.path(ANALYSE_ELEMENTS_DISTANCE);
-			            distanceResponse_dto.setOrigin(simulation.address_origin);
-			            distanceResponse_dto.setDestination(simulation.address_destination);
+			            distanceResponse_dto.origin = simulation.address_origin;
+			            distanceResponse_dto.destination = simulation.address_destination;
 			            String distanceS = distanceNode.path(ANALYSE_ELEMENTS_TEXT).asText();
-			            distanceResponse_dto.setDistance(getDistanceParse(distanceS));
-			            distanceResponse_dto.setMeasureUnit(simulation.unity_measurement_distance_txt);
-			            distanceResponse_dto.setStatus(status);
+			            distanceResponse_dto.distance = separationElementObj.getDistanceParse(distanceS);
+			            distanceResponse_dto.measureUnit = simulation.unity_measurement_distance_txt;
+			            distanceResponse_dto.status = status;
 					}
 					else {
-			            distanceResponse_dto.setOrigin(simulation.address_origin);
-			            distanceResponse_dto.setDestination(simulation.address_destination);
-			            distanceResponse_dto.setMeasureUnit(simulation.unity_measurement_distance_txt);
-			            distanceResponse_dto.setDistance(0);
-			            distanceResponse_dto.setStatus(status);
+			            distanceResponse_dto.origin = simulation.address_origin;
+			            distanceResponse_dto.destination = simulation.address_destination;
+			            distanceResponse_dto.measureUnit = simulation.unity_measurement_distance_txt;
+			            distanceResponse_dto.distance = 0;
+			            distanceResponse_dto.status = status;
 					}
 				}	
 			}
@@ -57,12 +60,6 @@ public class AnalyzeDistanceData_Component {
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	public double getDistanceParse(String contain) {
-        String distanceS = StringUtils.substring(contain, 0, contain.length() - 2);
-    	String formatDistance = distanceS.replace(",", ".");
-        return Double.parseDouble(formatDistance);
 	}
 	
 }
