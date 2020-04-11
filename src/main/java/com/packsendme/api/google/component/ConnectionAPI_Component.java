@@ -25,7 +25,7 @@ enum UnityMeasurement {
 }
 
 @Component
-public class ConnectionGoogleAPI_Component {
+public class ConnectionAPI_Component {
 
 	@Value(value = "${api.google.tolls}")
 	public String tolls_api_url;
@@ -36,11 +36,14 @@ public class ConnectionGoogleAPI_Component {
 	@Value(value = "${api.google.distance}")
 	private String distance_api_url;
 	
+	@Value(value = "${api.google.geocode}")
+	private String geocode_api_url;
+	
 	private final String UNITY_MEASUREMENT_KM = "metric";
 	private final String UNITY_MEASUREMENT_MI = "imperial";
 	
 	
-	public ResponseEntity<String> connectionGoogleAPI(SimulationRequest_Dto simulation, String typeAPI) {
+	public ResponseEntity<String> connectionGoogleAPI(SimulationRequest_Dto simulation, String countryAddress, String typeAPI) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			
@@ -50,11 +53,16 @@ public class ConnectionGoogleAPI_Component {
 			HttpEntity request = new HttpEntity(headers);
 			
 			Map<String, String> uriParam = new HashMap<>();
-		    uriParam.put("origin", simulation.address_origin);
-		    uriParam.put("destination", simulation.address_destination);
+			if (typeAPI.equals(GoogleAPI_Constants.API_GEOCODE)) {
+			    uriParam.put("address", countryAddress);
+			}
+			else {
+			    uriParam.put("origin", simulation.address_origin);
+			    uriParam.put("destination", simulation.address_destination);
+			    uriParam.put("units", getUnity(simulation.getUnity_measurement_distance_txt()));
+			}
 		    uriParam.put("key", key_api);
 		    uriParam.put("travel_mode", "DRIVING");
-		    uriParam.put("units", getUnity(simulation.getUnity_measurement_distance_txt()));
 		    
 		    ResponseEntity<String> response = restTemplate.exchange(
 		    		getGoogleAPIURL(typeAPI),
@@ -96,9 +104,11 @@ public class ConnectionGoogleAPI_Component {
 			case GoogleAPI_Constants.API_DISTANCE:
 				api = distance_api_url;
 				break;
-				
 			case GoogleAPI_Constants.API_TOLLS:
 				api = tolls_api_url;
+				break;
+			case GoogleAPI_Constants.API_GEOCODE:
+				api = geocode_api_url;
 				break;
 			default:
 				break;
