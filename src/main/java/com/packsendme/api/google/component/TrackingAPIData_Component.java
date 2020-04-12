@@ -248,8 +248,10 @@ public class TrackingAPIData_Component {
 	//****************************************************************************************************************************//
 	
  	public GoogleAPIDistanceResponse_Dto getLatLongForDistance(JSONObject object, String patterns, SimulationRequest_Dto simulationDto) {
-  		GoogleAPIDistanceResponse_Dto distanceResponse_dto = null;
+    	Map latlong_map = new HashMap();
+		GoogleAPIDistanceResponse_Dto distanceResponse_dto = null;
     	SimulationRequest_Dto simulation = new SimulationRequest_Dto();
+    	int count = 0;
     	
     	if(patterns.equals(ANALYSE_PATTERN_START)) {
     		latlong_map = ((Map)object.get(ANALYSE_ELEMENT_STARTLOCATION));
