@@ -112,7 +112,7 @@ public class TrackingAPIData_Component {
 				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
 				    		//Find Tolls/Fuel Price by Country
 
-				    		FuelPriceCountryBRE_Model fuelObjBRE = getFuelPriceFromObjBRE(countryName,fuelBRE);
+				    		FuelPriceCountryBRE_Model fuelObjBRE = getFuelPriceFromObjBRE(countryName.trim(),fuelBRE);
 				    		TollsPriceCountryBRE_Model tollsObjBRE = getTollsPriceFromObjBRE(countryName,tollsBRE);
 				    		
 				    		
@@ -221,6 +221,7 @@ public class TrackingAPIData_Component {
 	//****************************************************************************************************************************//
 	public FuelPriceCountryBRE_Model getFuelPriceFromObjBRE(String countryName, FuelBRE_Model fuelbre) {
 		List<FuelPriceCountryBRE_Model> fuelPriceCountry = fuelbre.fuelPriceCountry;
+		
 		for(FuelPriceCountryBRE_Model fuelP : fuelPriceCountry) {
     		System.out.println("getFuelPriceFromObjBRE - COUNTRY NAME "+ countryName);
 
@@ -232,9 +233,31 @@ public class TrackingAPIData_Component {
 		return null;
 	}
 	    
-	public TollsPriceCountryBRE_Model getTollsPriceFromObjBRE(String countryName, TollsBRE_Model fuelbre) {
-		List<TollsPriceCountryBRE_Model> tollsPriceCountry = fuelbre.tollsPriceCountry;
+	public TollsPriceCountryBRE_Model getTollsPriceFromObjBRE(String countryName, TollsBRE_Model tollsbre) {
+		List<TollsPriceCountryBRE_Model> tollsPriceCountry = tollsbre.tollsPriceCountry;
+
+		System.out.println(" ");
+		System.out.println("===============================================================================");
+		System.out.println(" ");
+		System.out.println("getFuelPriceFromObjBRE");
+		System.out.println("getFuelPriceFromObjBRE "+ tollsPriceCountry.size());
+		System.out.println(" ");
+		System.out.println("===============================================================================");
+		System.out.println(" ");
+
+		
+		
 		for(TollsPriceCountryBRE_Model tollsP : tollsPriceCountry) {
+			
+			System.out.println(" ");
+		System.out.println("===============================================================================");
+		System.out.println(" ");
+		System.out.println("getFuelPriceFromObjBRE COUNTRY "+ tollsP.country_name);
+		System.out.println(" ");
+		System.out.println("===============================================================================");
+		System.out.println(" ");
+
+			
 			if(countryName.equals(tollsP.country_name)) {
 	    		System.out.println("getTollsPriceFromObjBRE - IF - COUNTRY NAME "+ tollsP.country_name);
 				return tollsP;
