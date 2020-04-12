@@ -108,9 +108,25 @@ public class TrackingAPIData_Component {
 				    		// Find Distance
 				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
 				    		//Find Tolls/Fuel Price by Country
+
 				    		FuelPriceCountryBRE_Model fuelObjBRE = getFuelPriceFromObjBRE(countryName,fuelBRE);
 				    		TollsPriceCountryBRE_Model tollsObjBRE = getTollsPriceFromObjBRE(countryName,tollsBRE);
 				    		
+				    		
+				    		System.out.println(" ");
+				    		System.out.println(" ====================================================================== ");
+				    		System.out.println("NAME "+ countryName);
+				    		System.out.println("DISTANCE "+ distance_dto.distance);
+				    		System.out.println("TOLLS "+ tolls_amount);
+				    		System.out.println("TOLLS PRICE "+ tollsObjBRE.tolls_price);
+				    		System.out.println("FUEL PRICE "+ fuelObjBRE.fuel_price);
+				    		System.out.println("FUEL CURRENCY "+ fuelObjBRE.currency_price);
+				    		System.out.println("FUEL UNITY "+ fuelObjBRE.unity_measurement_volume);
+				    		System.out.println(" ====================================================================== ");
+				    		System.out.println(" ");
+				    		
+
+
 				    		if((fuelObjBRE != null) || (tollsObjBRE != null)) {
 				    			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsObjBRE.tolls_price,distance_dto.distance,
 				    				fuelObjBRE.fuel_price,fuelObjBRE.currency_price,fuelObjBRE.unity_measurement_volume);
@@ -203,7 +219,10 @@ public class TrackingAPIData_Component {
 	public FuelPriceCountryBRE_Model getFuelPriceFromObjBRE(String countryName, FuelBRE_Model fuelbre) {
 		List<FuelPriceCountryBRE_Model> fuelPriceCountry = fuelbre.fuelPriceCountry;
 		for(FuelPriceCountryBRE_Model fuelP : fuelPriceCountry) {
+    		System.out.println("getFuelPriceFromObjBRE - COUNTRY NAME "+ countryName);
+
 			if(countryName.equals(fuelP.country_name)) {
+	    		System.out.println("getFuelPriceFromObjBRE - IF - COUNTRY NAME "+ fuelP.country_name);
 				return fuelP;
 			}
 		}
@@ -214,6 +233,7 @@ public class TrackingAPIData_Component {
 		List<TollsPriceCountryBRE_Model> tollsPriceCountry = fuelbre.tollsPriceCountry;
 		for(TollsPriceCountryBRE_Model tollsP : tollsPriceCountry) {
 			if(countryName.equals(tollsP.country_name)) {
+	    		System.out.println("getTollsPriceFromObjBRE - IF - COUNTRY NAME "+ tollsP.country_name);
 				return tollsP;
 			}
 		}
