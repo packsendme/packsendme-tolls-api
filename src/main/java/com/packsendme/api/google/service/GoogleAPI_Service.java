@@ -9,12 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.packsend.api.google.dto.GoogleAPIDistanceResponse_Dto;
-import com.packsend.api.google.dto.GoogleAPITrackingResponse_Dto;
 import com.packsendme.api.google.component.DistanceAPIData_Component;
 import com.packsendme.api.google.component.ConnectionAPI_Component;
-import com.packsendme.api.google.component.TollsFuelRoadwayData_Component;
+import com.packsendme.api.google.component.TollsFuelTrackingData_Component;
 import com.packsendme.api.google.component.TrackingAPIData_Component;
+import com.packsendme.api.google.dto.GoogleAPIDistanceResponse_Dto;
+import com.packsendme.api.google.dto.GoogleAPITrackingResponse_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
 import com.packsendme.fuel.bre.rule.model.FuelBRE_Model;
 import com.packsendme.lib.common.constants.GoogleAPI_Constants;
@@ -32,7 +32,7 @@ public class GoogleAPI_Service {
 	@Autowired
 	private DistanceAPIData_Component analyzeDistance_Component;
 	@Autowired
-	private TollsFuelRoadwayData_Component tollsFuelRoadwayData_Component;
+	private TollsFuelTrackingData_Component tollsFuelRoadwayData_Component;
 	
 	@Autowired
 	ConnectionAPI_Component connectionAPI;
