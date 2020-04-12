@@ -21,6 +21,7 @@ import com.packsendme.lib.common.constants.CacheBRE_Constants;
 import com.packsendme.lib.common.constants.Region_Constants;
 import com.packsendme.tolls.bre.model.TollsBRE_Model;
 
+
 @Component
 @EnableFeignClients(basePackages="com.packsendme.api.google.controller")
 public class TollsFuelTrackingData_Component {
@@ -71,8 +72,9 @@ public class TollsFuelTrackingData_Component {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		//mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-		
-		String regionCountry = getRegionCountryByJson(regionJsonObj);
+	    mapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+
+	    String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
 		ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getFuelBRE_SA(fuelRegionCache);
 		
