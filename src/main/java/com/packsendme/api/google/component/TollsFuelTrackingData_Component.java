@@ -66,6 +66,13 @@ public class TollsFuelTrackingData_Component {
 		Gson gson = new Gson();
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
+		
+		System.out.println(" ");
+		System.out.println("===============================================================================");
+		System.out.println("getFuelPriceFromObjBRE ---- fuelRegionCache "+regionCountry+" | "+ fuelRegionCache);
+		System.out.println("===============================================================================");
+		System.out.println(" ");
+		
 		ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getFuelBRE_SA(fuelRegionCache);
 		
 		System.out.println("===============================================================================");
