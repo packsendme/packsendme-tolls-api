@@ -47,6 +47,9 @@ public class TrackingAPIData_Component {
 	private final String ANALYSE_ELEMENT_DISTANCE = "distance";
 	private final String ANALYSE_ELEMENT_TEXT = "text";
 	
+	Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
+	int count = 0;
+	
 	@Autowired
 	private ConnectionAPI_Component connectionGoogle;
 	
@@ -245,11 +248,8 @@ public class TrackingAPIData_Component {
 	//****************************************************************************************************************************//
 	
  	public GoogleAPIDistanceResponse_Dto getLatLongForDistance(JSONObject object, String patterns, SimulationRequest_Dto simulationDto) {
-    	Map latlong_map = null;
-		GoogleAPIDistanceResponse_Dto distanceResponse_dto = null;
+  		GoogleAPIDistanceResponse_Dto distanceResponse_dto = null;
     	SimulationRequest_Dto simulation = new SimulationRequest_Dto();
-    	Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
-    	int count = 0;
     	
     	if(patterns.equals(ANALYSE_PATTERN_START)) {
     		latlong_map = ((Map)object.get(ANALYSE_ELEMENT_STARTLOCATION));
