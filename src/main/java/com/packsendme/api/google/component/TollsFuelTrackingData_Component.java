@@ -1,5 +1,6 @@
 package com.packsendme.api.google.component;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.packsendme.api.google.controller.IBusinessManager_SA_Client;
 import com.packsendme.fuel.bre.rule.model.FuelBRE_Model;
@@ -64,6 +68,8 @@ public class TollsFuelTrackingData_Component {
 	
 	public FuelBRE_Model getFuelBREFromCache(JSONObject regionJsonObj) {
 		Gson gson = new Gson();
+		
+		ObjectMapper mapper = new ObjectMapper();
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
 		ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getFuelBRE_SA(fuelRegionCache);
@@ -77,20 +83,38 @@ public class TollsFuelTrackingData_Component {
 		
 		if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 			String json = fuelResponse_Entity.getBody().toString();
-			FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
+			//FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
 			
-			System.out.println(" ");
-			System.out.println("===============================================================================");
-			System.out.println(" ");
-			System.out.println("getFuelBREFromCache JSON "+ json);
-			System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.name_rule);
-			System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.fuelPriceCountry.size());
-			System.out.println(" ");
-			System.out.println("===============================================================================");
-			System.out.println(" ");
+			FuelBRE_Model fuelBRE;
+			try {
+				fuelBRE = mapper.readValue(json, FuelBRE_Model.class);
+				
+				System.out.println(" ");
+				System.out.println("===============================================================================");
+				System.out.println(" ");
+				System.out.println("getFuelBREFromCache JSON "+ json);
+				System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.name_rule);
+				System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.fuelPriceCountry.size());
+				System.out.println(" ");
+				System.out.println("===============================================================================");
+				System.out.println(" ");
+				return fuelBRE;
+				
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	
 
 			
-			return fuelBRE;
+		
 		}
 		return null;
 	}
