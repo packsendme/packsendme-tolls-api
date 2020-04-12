@@ -25,7 +25,7 @@ public class TollsFuelTrackingData_Component {
 	@Autowired
 	RegionCountryRoadway_Component location_component;
 	
-	@Autowired(required=false)
+	@Autowired(required=true)
 	IBusinessManager_SA_Client businessManager_SA_Client;
 	
 	private final String ANALYSE_ARRAY_RESULT = "results";
