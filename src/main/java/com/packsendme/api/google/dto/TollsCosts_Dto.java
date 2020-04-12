@@ -1,4 +1,4 @@
-package com.packsend.api.google.dto;
+package com.packsendme.api.google.dto;
 
 import lombok.Getter;
 import lombok.Setter;

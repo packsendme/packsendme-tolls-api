@@ -10,14 +10,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.packsend.api.google.dto.GoogleAPIDistanceResponse_Dto;
-import com.packsend.api.google.dto.GoogleAPITrackingResponse_Dto;
-import com.packsend.api.google.dto.RoadwayTrackingResponse_Dto;
+import com.packsendme.api.google.dto.GoogleAPIDistanceResponse_Dto;
+import com.packsendme.api.google.dto.GoogleAPITrackingResponse_Dto;
+import com.packsendme.api.google.dto.RoadwayTrackingResponse_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
 import com.packsendme.fuel.bre.rule.model.FuelBRE_Model;
 import com.packsendme.fuel.bre.rule.price.model.FuelPriceCountryBRE_Model;
@@ -27,7 +26,6 @@ import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 import com.packsendme.tolls.bre.model.TollsBRE_Model;
 
 @Component
-@ComponentScan("com.packsendme.api.google.dao")
 public class TrackingAPIData_Component {
 
 	private final Double AVERAGE_PRICE_DEFAULT = 0.0;
@@ -53,7 +51,7 @@ public class TrackingAPIData_Component {
 	private ConnectionAPI_Component connectionGoogle;
 	
 	@Autowired
-	TollsFuelRoadwayData_Component tollsFuelData_Component;
+	TollsFuelTrackingData_Component tollsFuelData_Component;
 	
 	@Autowired
 	private DistanceAPIData_Component analyzeDistance_Component;

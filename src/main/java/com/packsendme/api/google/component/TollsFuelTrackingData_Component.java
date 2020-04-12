@@ -17,7 +17,7 @@ import com.packsendme.tolls.bre.model.TollsBRE_Model;
 
 @Component
 @ComponentScan("com.packsendme.api.google.controller")
-public class TollsFuelRoadwayData_Component {
+public class TollsFuelTrackingData_Component {
 	
 	@Autowired
 	ConnectionAPI_Component connectionGoogle_Geocode;
@@ -25,7 +25,7 @@ public class TollsFuelRoadwayData_Component {
 	@Autowired
 	RegionCountryRoadway_Component location_component;
 	
-	@Autowired
+	@Autowired(required=false)
 	IBusinessManager_SA_Client businessManager_SA_Client;
 	
 	private final String ANALYSE_ARRAY_RESULT = "results";
