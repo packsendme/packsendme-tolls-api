@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import com.packsendme.lib.common.constants.Region_Constants;
 import com.packsendme.tolls.bre.model.TollsBRE_Model;
 
 @Component
-@ComponentScan("com.packsendme.api.google.controller")
+@EnableFeignClients(basePackages="com.packsendme.api.google.controller")
 public class TollsFuelTrackingData_Component {
 	
 	@Autowired
