@@ -70,6 +70,18 @@ public class TollsFuelTrackingData_Component {
 		if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 			String json = fuelResponse_Entity.getBody().toString();
 			FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
+			
+			System.out.println(" ");
+			System.out.println("===============================================================================");
+			System.out.println(" ");
+			System.out.println("getFuelBREFromCache");
+			System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.name_rule);
+			System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.fuelPriceCountry.size());
+			System.out.println(" ");
+			System.out.println("===============================================================================");
+			System.out.println(" ");
+
+			
 			return fuelBRE;
 		}
 		return null;
