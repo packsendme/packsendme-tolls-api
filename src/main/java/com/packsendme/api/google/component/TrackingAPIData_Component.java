@@ -251,7 +251,7 @@ public class TrackingAPIData_Component {
     	Map latlong_map = new HashMap();
 		GoogleAPIDistanceResponse_Dto distanceResponse_dto = null;
     	SimulationRequest_Dto simulation = new SimulationRequest_Dto();
-    	int count = 0;
+   
     	
     	if(patterns.equals(ANALYSE_PATTERN_START)) {
     		latlong_map = ((Map)object.get(ANALYSE_ELEMENT_STARTLOCATION));
