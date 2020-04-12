@@ -67,6 +67,11 @@ public class TollsFuelTrackingData_Component {
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
 		ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getFuelBRE_SA(fuelRegionCache);
+		
+		System.out.println("===============================================================================");
+		System.out.println("getFuelPriceFromObjBRE "+ fuelResponse_Entity.getStatusCode());
+		System.out.println("===============================================================================");
+		
 		if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 			String json = fuelResponse_Entity.getBody().toString();
 			FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
@@ -74,7 +79,7 @@ public class TollsFuelTrackingData_Component {
 			System.out.println(" ");
 			System.out.println("===============================================================================");
 			System.out.println(" ");
-			System.out.println("getFuelBREFromCache");
+			System.out.println("getFuelBREFromCache JSON "+ json);
 			System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.name_rule);
 			System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.fuelPriceCountry.size());
 			System.out.println(" ");
