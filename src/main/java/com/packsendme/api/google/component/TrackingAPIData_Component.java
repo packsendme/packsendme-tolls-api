@@ -47,6 +47,9 @@ public class TrackingAPIData_Component {
 	private final String ANALYSE_ELEMENT_DISTANCE = "distance";
 	private final String ANALYSE_ELEMENT_TEXT = "text";
 	
+	private Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
+
+	
 	@Autowired
 	private ConnectionAPI_Component connectionGoogle;
 	
@@ -248,7 +251,6 @@ public class TrackingAPIData_Component {
     	Map latlong_map = null;
 		GoogleAPIDistanceResponse_Dto distanceResponse_dto = null;
     	SimulationRequest_Dto simulation = new SimulationRequest_Dto();
-    	Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
     	int count = 0;
     	
     	if(patterns.equals(ANALYSE_PATTERN_START)) {
