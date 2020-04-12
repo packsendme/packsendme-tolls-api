@@ -70,7 +70,7 @@ public class TollsFuelTrackingData_Component {
 		Gson gson = new Gson();
 		
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		//mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 		
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
@@ -79,18 +79,17 @@ public class TollsFuelTrackingData_Component {
 		System.out.println(" ");
 		System.out.println("===============================================================================");
 		System.out.println("getFuelPriceFromObjBRE "+ fuelResponse_Entity.getStatusCode());
-		System.out.println("getFuelPriceFromObjBRE ---- fuelRegionCache "+regionCountry+" | "+ fuelRegionCache);
-		System.out.println("===============================================================================");
-		System.out.println(" ");
 		
 		if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 			String json = fuelResponse_Entity.getBody().toString();
 			//FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
-			
-			FuelBRE_Model fuelBRE;
+			System.out.println("getFuelPriceFromObjBRE ----  json  "+json);
+			System.out.println("===============================================================================");
+			System.out.println(" ");
+				
 			try {
 				
-				fuelBRE = mapper.readValue(json, FuelBRE_Model.class);
+				FuelBRE_Model fuelBRE = mapper.readValue(json, FuelBRE_Model.class);
 				
 				System.out.println(" ");
 				System.out.println("===============================================================================");
