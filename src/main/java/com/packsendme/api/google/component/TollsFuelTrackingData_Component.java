@@ -70,6 +70,8 @@ public class TollsFuelTrackingData_Component {
 		Gson gson = new Gson();
 		
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
 		ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getFuelBRE_SA(fuelRegionCache);
@@ -87,6 +89,7 @@ public class TollsFuelTrackingData_Component {
 			
 			FuelBRE_Model fuelBRE;
 			try {
+				
 				fuelBRE = mapper.readValue(json, FuelBRE_Model.class);
 				
 				System.out.println(" ");
