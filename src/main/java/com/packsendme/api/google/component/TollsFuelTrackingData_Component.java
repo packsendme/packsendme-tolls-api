@@ -6,9 +6,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.Gson;
 import com.packsendme.api.google.controller.IBusinessManager_SA_Client;
 import com.packsendme.fuel.bre.rule.model.FuelBRE_Model;
 import com.packsendme.lib.common.constants.CacheBRE_Constants;
@@ -61,19 +63,29 @@ public class TollsFuelTrackingData_Component {
 	}
 	
 	public FuelBRE_Model getFuelBREFromCache(JSONObject regionJsonObj) {
+		Gson gson = new Gson();
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
 		ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getFuelBRE_SA(fuelRegionCache);
-		FuelBRE_Model fuel_bre = (FuelBRE_Model) fuelResponse_Entity.getBody();
-		return fuel_bre;
+		if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
+			String json = fuelResponse_Entity.getBody().toString();
+			FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
+			return fuelBRE;
+		}
+		return null;
 	}
 	
 	public TollsBRE_Model getTollsBREFromCache(JSONObject regionJsonObj) {
+		Gson gson = new Gson();
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String tollsRegionCache = getTollsCacheName(regionCountry);
 		ResponseEntity<?> tollsResponse_Entity = businessManager_SA_Client.getTollsBRE_SA(tollsRegionCache);
-		TollsBRE_Model tolls_bre = (TollsBRE_Model) tollsResponse_Entity.getBody();
-		return tolls_bre;
+		if(tollsResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
+			String json = tollsResponse_Entity.getBody().toString();
+			TollsBRE_Model tollsBRE = gson.fromJson(json, TollsBRE_Model.class);
+			return tollsBRE;
+		}
+		return null;
 	}
 
 	
