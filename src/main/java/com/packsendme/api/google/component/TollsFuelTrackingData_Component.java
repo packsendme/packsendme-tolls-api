@@ -1,6 +1,5 @@
 package com.packsendme.api.google.component;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -11,16 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.packsendme.api.google.controller.IBusinessManager_SA_Client;
-import com.packsendme.fuel.bre.rule.model.FuelBRE_Model;
 import com.packsendme.lib.common.constants.CacheBRE_Constants;
+import com.packsendme.lib.common.constants.HttpExceptionPackSend;
 import com.packsendme.lib.common.constants.Region_Constants;
-import com.packsendme.tolls.bre.model.TollsBRE_Model;
-
+import com.packsendme.lib.common.response.Response;
+import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model;
 
 @Component
 @EnableFeignClients(basePackages="com.packsendme.api.google.controller")
@@ -67,63 +63,38 @@ public class TollsFuelTrackingData_Component {
 		}
 	}
 	
-	public FuelBRE_Model getFuelBREFromCache(JSONObject regionJsonObj) {
+	public TollsFuelBRE_Model getTollsFuelBREFromCache(JSONObject regionJsonObj) {
 		Gson gson = new Gson();
+		TollsFuelBRE_Model tollsFuelObj = null;
 		
-		//ObjectMapper mapper = new ObjectMapper();
-		//mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-	   // mapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-
-	    String regionCountry = getRegionCountryByJson(regionJsonObj);
-		String fuelRegionCache = getFuelCacheName(regionCountry);
-		ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getFuelBRE_SA(fuelRegionCache);
-		
-		System.out.println(" ");
-		System.out.println("===============================================================================");
-		System.out.println("getFuelPriceFromObjBRE "+ fuelResponse_Entity.getStatusCode());
-		
-		if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
-			String json = fuelResponse_Entity.getBody().toString();
-			System.out.println("getFuelPriceFromObjBRE ----  json  "+json);
-			System.out.println("===============================================================================");
-			System.out.println(" ");
-				
-			try {
-				
-				//FuelBRE_Model fuelBRE = mapper.readValue(json, FuelBRE_Model.class);
-				FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
-				
-				System.out.println(" ");
-				System.out.println("===============================================================================");
-				System.out.println(" ");
-				System.out.println("getFuelBREFromCache JSON "+ json);
-				System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.name_rule);
-				System.out.println("getFuelPriceFromObjBRE "+ fuelBRE.fuelPriceCountry.size());
-				System.out.println(" ");
-				System.out.println("===============================================================================");
-				System.out.println(" ");
-				return fuelBRE;
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-	
-	public TollsBRE_Model getTollsBREFromCache(JSONObject regionJsonObj) {
-		Gson gson = new Gson();
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
-		String tollsRegionCache = getTollsCacheName(regionCountry);
-		ResponseEntity<?> tollsResponse_Entity = businessManager_SA_Client.getTollsBRE_SA(tollsRegionCache);
-		if(tollsResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
-			String json = tollsResponse_Entity.getBody().toString();
-			TollsBRE_Model tollsBRE = gson.fromJson(json, TollsBRE_Model.class);
-			return tollsBRE;
+		String fuelRegionCache = getFuelCacheName(regionCountry);
+		
+		try {
+			ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getTollsFuelBRE_SA(fuelRegionCache);
+			if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
+				String jsonPayload = fuelResponse_Entity.getBody().toString();
+				Response<Object> response = gson.fromJson(jsonPayload, Response.class);
+				if(response.getResponseCode() == HttpExceptionPackSend.FOUND_BUSINESS_RULE.value()) {
+					System.out.println(" MY OBJECT  "+ response.getBody().toString());
+					String jsonObject = response.getBody().toString();
+					tollsFuelObj = gson.fromJson(jsonObject, TollsFuelBRE_Model.class);
+					System.out.println(" ");
+					System.out.println(" ");
+					System.out.println("===============================================================================");
+					System.out.println("TOLLS PRICE "+ tollsFuelObj.tollsfuelPriceCountry.size());
+					System.out.println("getFuelPriceFromObjBRE "+ tollsFuelObj.name_rule);
+					System.out.println("===============================================================================");
+					System.out.println(" ");
+					System.out.println(" ");
+				}
+			}
+			return tollsFuelObj;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
-
 	
 	public String getFuelCacheName(String region) {
 		String cache = null;
@@ -153,7 +124,7 @@ public class TollsFuelTrackingData_Component {
 				cache = CacheBRE_Constants.TOLLS_BRE_NA_CACHE;
 				break;
 			case Region_Constants.SOUTH_AMERICA_REGION:
-				cache = CacheBRE_Constants.TOLLS_BRE_SA_CACHE;
+				cache = CacheBRE_Constants.TOLLSFUEL_BRE_SA_CACHE;
 				break;
 			default:
 				break;

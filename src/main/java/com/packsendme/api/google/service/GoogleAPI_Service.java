@@ -9,19 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.packsendme.api.google.component.DistanceAPIData_Component;
 import com.packsendme.api.google.component.ConnectionAPI_Component;
+import com.packsendme.api.google.component.DistanceAPIData_Component;
 import com.packsendme.api.google.component.TollsFuelTrackingData_Component;
 import com.packsendme.api.google.component.TrackingAPIData_Component;
 import com.packsendme.api.google.dto.GoogleAPIDistanceResponse_Dto;
 import com.packsendme.api.google.dto.GoogleAPITrackingResponse_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
-import com.packsendme.fuel.bre.rule.model.FuelBRE_Model;
 import com.packsendme.lib.common.constants.GoogleAPI_Constants;
 import com.packsendme.lib.common.constants.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
-import com.packsendme.tolls.bre.model.TollsBRE_Model; 
+import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model; 
 
 @Service
 @ComponentScan("com.packsendme.api.google.component")
@@ -63,12 +62,11 @@ public class GoogleAPI_Service {
 		    	JSONObject geocodeJsonObject = (JSONObject) parser.parse(geocodeJsonBody);
 			    
 	    		// GET Fuel AND Tolls BRE-Cache 
-	    		FuelBRE_Model fuelBREObj = tollsFuelRoadwayData_Component.getFuelBREFromCache(geocodeJsonObject) ;
-	    		TollsBRE_Model tollsBREObj = tollsFuelRoadwayData_Component.getTollsBREFromCache(geocodeJsonObject) ;
+	    		TollsFuelBRE_Model tollsFuelBREObj = tollsFuelRoadwayData_Component.getTollsFuelBREFromCache(geocodeJsonObject) ;
 		    	
 	    		// Get TrackingBRE -> ParserData
-	    		if((fuelBREObj != null) && (tollsBREObj != null)) {
-	    			trackingResponse_Dto = trackingData_Component.getTrackingDataByJson(trackingJsonObject, simulation, fuelBREObj, tollsBREObj);
+	    		if(tollsFuelBREObj != null){
+	    			trackingResponse_Dto = trackingData_Component.getTrackingDataByJson(trackingJsonObject, simulation, tollsFuelBREObj);
 			    	responseObj = new Response<GoogleAPITrackingResponse_Dto>(HttpExceptionPackSend.GOOGLEAPI_PLACE.value(),HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), trackingResponse_Dto);
 		    	}
 	    		else {
