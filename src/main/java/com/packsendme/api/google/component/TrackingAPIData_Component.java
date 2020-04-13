@@ -18,12 +18,10 @@ import com.packsendme.api.google.dto.GoogleAPIDistanceResponse_Dto;
 import com.packsendme.api.google.dto.GoogleAPITrackingResponse_Dto;
 import com.packsendme.api.google.dto.RoadwayTrackingResponse_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
-import com.packsendme.fuel.bre.rule.model.FuelBRE_Model;
-import com.packsendme.fuel.bre.rule.price.model.FuelPriceCountryBRE_Model;
-import com.packsendme.fuel.bre.rule.price.model.TollsPriceCountryBRE_Model;
 import com.packsendme.lib.common.constants.GoogleAPI_Constants;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
-import com.packsendme.tolls.bre.model.TollsBRE_Model;
+import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model;
+import com.packsendme.tollsfuel.bre.rule.price.model.TollsFuelPriceCountryBRE_Model;
 
 @Component
 public class TrackingAPIData_Component {
@@ -59,13 +57,14 @@ public class TrackingAPIData_Component {
 	@Autowired
 	private DistanceAPIData_Component analyzeDistance_Component;
 	
-	public GoogleAPITrackingResponse_Dto getTrackingDataByJson(JSONObject trackingJsonObj, SimulationRequest_Dto simulation, FuelBRE_Model fuelBRE, TollsBRE_Model tollsBRE){
+	
+	public GoogleAPITrackingResponse_Dto getTrackingDataByJson(JSONObject trackingJsonObj, SimulationRequest_Dto simulation, TollsFuelBRE_Model tollsFuel_Cache){
 		int tolls_amount = 0;
         String countryName = null, countryNameChange = null;
         JSONObject jsonHtmlInstLast = null;
         GoogleAPIDistanceResponse_Dto distance_dto = new GoogleAPIDistanceResponse_Dto();
   		Map<String, RoadwayTrackingResponse_Dto> tracking_map = new HashMap<String, RoadwayTrackingResponse_Dto>();
-  		RoadwayTrackingResponse_Dto trackingResponse_dto = null;
+  		RoadwayTrackingResponse_Dto  trackingResponse_Dto = null; 
   		GoogleAPITrackingResponse_Dto googleTrackingResponse_dto = new GoogleAPITrackingResponse_Dto();
   		SeparationElementTools separationElementObj = new SeparationElementTools();
 
@@ -105,100 +104,27 @@ public class TrackingAPIData_Component {
 			    		}
 				    }
  
-				    // Change Country in Direction JSON-GOOGLE
+				    // Change Country in Direction/Country JSON-GOOGLE
 				    if (separationElementObj.analyzeContain(scheme,ANALYSE_PATTERN_COUNTRY) == true){
-				    	if(tolls_amount > 0) {
-				    		// Find Distance
-				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
-				    		//Find Tolls/Fuel Price by Country
-
-				    		FuelPriceCountryBRE_Model fuelObjBRE = getFuelPriceFromObjBRE(countryName.trim(),fuelBRE);
-				    		TollsPriceCountryBRE_Model tollsObjBRE = getTollsPriceFromObjBRE(countryName,tollsBRE);
-				    		
-				    		
-				    		System.out.println(" ");
-				    		System.out.println(" ====================================================================== ");
-				    		System.out.println("NAME "+ countryName);
-				    		System.out.println("DISTANCE "+ distance_dto.distance);
-				    		System.out.println("TOLLS "+ tolls_amount);
-				    		System.out.println("TOLLS PRICE "+ tollsObjBRE.tolls_price);
-				    		System.out.println("FUEL PRICE "+ fuelObjBRE.fuel_price);
-				    		System.out.println("FUEL CURRENCY "+ fuelObjBRE.currency_price);
-				    		System.out.println("FUEL UNITY "+ fuelObjBRE.unity_measurement_volume);
-				    		System.out.println(" ====================================================================== ");
-				    		System.out.println(" ");
-				    		
-
-
-				    		if((fuelObjBRE != null) || (tollsObjBRE != null)) {
-				    			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsObjBRE.tolls_price,distance_dto.distance,
-				    				fuelObjBRE.fuel_price,fuelObjBRE.currency_price,fuelObjBRE.unity_measurement_volume);
-				    		}
-				    		else {
-				    			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance_dto.distance,
-					    				AVERAGE_PRICE_DEFAULT,null,null);
-				    		}
-							tolls_amount = 0;
-				    	}
-				    	else {
-				    		//Find Fuel Price by Country
-				    		FuelPriceCountryBRE_Model fuelObjBRE = getFuelPriceFromObjBRE(countryName,fuelBRE);
-				    		// Find Distance
-				    		distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
-
-				    		if(fuelObjBRE != null) {
-				    			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance_dto.distance,
-				    				fuelObjBRE.fuel_price,fuelObjBRE.currency_price,fuelObjBRE.unity_measurement_volume);
-				    		}
-				    		else {
-				    			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance_dto.distance,
-					    				AVERAGE_PRICE_DEFAULT,null,null);
-				    		}
-				    	}
-				    	tracking_map.put(countryName, trackingResponse_dto);
-			    		countryName = separationElementObj.subStringCountry(scheme);
-			    		countryNameChange = countryName;
+				    	// Find Distance
+				    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
+				    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, tollsFuel_Cache, distance_dto);
+						tolls_amount = 0;
 				    }
-				    // Analyze Tolls in Direction JSON-GOOGLE
-				    if (separationElementObj.analyzeContain(scheme,ANALYSE_PATTERN_TOLLS) == true){
+				    tracking_map.put(countryName, trackingResponse_Dto);
+			    	countryName = separationElementObj.subStringCountry(scheme);
+			    	countryNameChange = countryName;
+			    
+			    	// Analyze Tolls in Direction JSON-GOOGLE
+			    	if (separationElementObj.analyzeContain(scheme,ANALYSE_PATTERN_TOLLS) == true){
 				    	tolls_amount++;
 				    }
 				    jsonHtmlInstLast = jsonHtmlInst;
 				}
 				
-				if(tolls_amount > 0) {
-		    		// Find Distance
-		    		distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
-		    		//Find Tolls/Fuel Price by Country
-		    		FuelPriceCountryBRE_Model fuelObjBRE = getFuelPriceFromObjBRE(countryName,fuelBRE);
-		    		TollsPriceCountryBRE_Model tollsObjBRE = getTollsPriceFromObjBRE(countryName,tollsBRE);
-		    		
-		    		if((fuelObjBRE != null) && (tollsObjBRE != null)) {
-		    			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsObjBRE.tolls_price,distance_dto.distance,
-		    				fuelObjBRE.fuel_price,fuelObjBRE.currency_price,fuelObjBRE.unity_measurement_volume);
-		    		}
-		    		else {
-			    		trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance_dto.distance,
-			    				AVERAGE_PRICE_DEFAULT,null,null);
-		    		}
-		    		
-		    		tracking_map.put(countryName, trackingResponse_dto);
-				}
-		    	else {
-		    		// Find Distance
-		    		distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
-		    		//Find Fuel Price by Country
-		    		FuelPriceCountryBRE_Model fuelObjBRE = getFuelPriceFromObjBRE(countryName,fuelBRE);
-
-		    		if(fuelObjBRE != null) {
-		    			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance_dto.distance,
-		    				fuelObjBRE.fuel_price,fuelObjBRE.currency_price,fuelObjBRE.unity_measurement_volume);
-		    		}else {
-				    	trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance_dto.distance,
-				    		AVERAGE_PRICE_DEFAULT,null,null);
-			    	}
-		    		tracking_map.put(countryName, trackingResponse_dto);
-		    	}
+				distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
+		    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, tollsFuel_Cache, distance_dto);
+			    tracking_map.put(countryName, trackingResponse_Dto);
 			}
 			if (tracking_map.size() > 0) {
 				googleTrackingResponse_dto.status = true;
@@ -216,55 +142,44 @@ public class TrackingAPIData_Component {
 		}
     }
 	
+	
+	
+	private RoadwayTrackingResponse_Dto setTrackingResponse_Dto(String countryName, int tolls_amount, TollsFuelBRE_Model tollsFuel_Cache, GoogleAPIDistanceResponse_Dto distance) {
+		RoadwayTrackingResponse_Dto trackingResponse_dto = null;
+
+		//Find Fuel Price by Country
+		TollsFuelPriceCountryBRE_Model tollsFuelObjResult = getTollsFuelPriceFromCountry(countryName.trim(),tollsFuel_Cache);
+		
+		if(tolls_amount > 0) {
+			if(tollsFuelObjResult != null) {
+				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distance,
+						tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
+			}
+			else {
+				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distance,
+	    				AVERAGE_PRICE_DEFAULT,null,null);
+			}
+		}
+		else{
+			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance.distance,
+					tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
+		}
+		return trackingResponse_dto;
+	}
+	
 	//****************************************************************************************************************************//
 	// FIND FUEL AND TOLLS IN BRE
 	//****************************************************************************************************************************//
-	public FuelPriceCountryBRE_Model getFuelPriceFromObjBRE(String countryName, FuelBRE_Model fuelbre) {
-		List<FuelPriceCountryBRE_Model> fuelPriceCountry = fuelbre.fuelPriceCountry;
-		
-		for(FuelPriceCountryBRE_Model fuelP : fuelPriceCountry) {
+	public TollsFuelPriceCountryBRE_Model getTollsFuelPriceFromCountry(String countryName, TollsFuelBRE_Model tollsFuelObj) {
+		for(TollsFuelPriceCountryBRE_Model tollsFuelPrice : tollsFuelObj.tollsfuelPriceCountry) {
     		System.out.println("getFuelPriceFromObjBRE - COUNTRY NAME "+ countryName);
-
-			if(countryName.equals(fuelP.country_name)) {
-	    		System.out.println("getFuelPriceFromObjBRE - IF - COUNTRY NAME "+ fuelP.country_name);
-				return fuelP;
+			if(countryName.equals(tollsFuelPrice.country_name)) {
+				return tollsFuelPrice;
 			}
 		}
 		return null;
 	}
 	    
-	public TollsPriceCountryBRE_Model getTollsPriceFromObjBRE(String countryName, TollsBRE_Model tollsbre) {
-		List<TollsPriceCountryBRE_Model> tollsPriceCountry = tollsbre.tollsPriceCountry;
-
-		System.out.println(" ");
-		System.out.println("===============================================================================");
-		System.out.println(" ");
-		System.out.println("getFuelPriceFromObjBRE");
-		System.out.println("getFuelPriceFromObjBRE "+ tollsPriceCountry.size());
-		System.out.println(" ");
-		System.out.println("===============================================================================");
-		System.out.println(" ");
-
-		
-		
-		for(TollsPriceCountryBRE_Model tollsP : tollsPriceCountry) {
-			
-			System.out.println(" ");
-		System.out.println("===============================================================================");
-		System.out.println(" ");
-		System.out.println("getFuelPriceFromObjBRE COUNTRY "+ tollsP.country_name);
-		System.out.println(" ");
-		System.out.println("===============================================================================");
-		System.out.println(" ");
-
-			
-			if(countryName.equals(tollsP.country_name)) {
-	    		System.out.println("getTollsPriceFromObjBRE - IF - COUNTRY NAME "+ tollsP.country_name);
-				return tollsP;
-			}
-		}
-		return null;
-	}
 	
 	//****************************************************************************************************************************//
 	// API_DISTANCE - CALL

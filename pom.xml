@@ -76,14 +76,8 @@
 		</dependency>
 		
 		<dependency>
-		  	<groupId>com.packsendme.bre.fuel</groupId>
-  			<artifactId>packsendme-fuel-bre</artifactId>
-  			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-		  	<groupId>com.packsendme.bre.tolls</groupId>
-  			<artifactId>packsendme-tolls-bre</artifactId>
+		  	<groupId>com.packsendme.bre.tollsfuel</groupId>
+  			<artifactId>packsendme-tollsfuel-bre</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
   			
