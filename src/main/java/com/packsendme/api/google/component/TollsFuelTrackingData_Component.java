@@ -70,9 +70,9 @@ public class TollsFuelTrackingData_Component {
 	public FuelBRE_Model getFuelBREFromCache(JSONObject regionJsonObj) {
 		Gson gson = new Gson();
 		
-		ObjectMapper mapper = new ObjectMapper();
+		//ObjectMapper mapper = new ObjectMapper();
 		//mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-	    mapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+	   // mapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 
 	    String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
@@ -84,14 +84,14 @@ public class TollsFuelTrackingData_Component {
 		
 		if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 			String json = fuelResponse_Entity.getBody().toString();
-			//FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
 			System.out.println("getFuelPriceFromObjBRE ----  json  "+json);
 			System.out.println("===============================================================================");
 			System.out.println(" ");
 				
 			try {
 				
-				FuelBRE_Model fuelBRE = mapper.readValue(json, FuelBRE_Model.class);
+				//FuelBRE_Model fuelBRE = mapper.readValue(json, FuelBRE_Model.class);
+				FuelBRE_Model fuelBRE = gson.fromJson(json, FuelBRE_Model.class);
 				
 				System.out.println(" ");
 				System.out.println("===============================================================================");
@@ -104,21 +104,9 @@ public class TollsFuelTrackingData_Component {
 				System.out.println(" ");
 				return fuelBRE;
 				
-			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-	
-
-			
-		
 		}
 		return null;
 	}
