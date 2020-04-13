@@ -68,7 +68,7 @@ public class TollsFuelTrackingData_Component {
 		TollsFuelBRE_Model tollsFuelObj = null;
 		
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
-		String fuelRegionCache = getFuelCacheName(regionCountry);
+		String fuelRegionCache = getTollsFuelCacheName(regionCountry);
 
 
 		System.out.println("===============================================================================");
@@ -103,25 +103,8 @@ public class TollsFuelTrackingData_Component {
 		}
 	}
 	
-	public String getFuelCacheName(String region) {
-		String cache = null;
-		switch (region) {
-			case Region_Constants.EUROPE_REGION:
-				cache = CacheBRE_Constants.FUEL_BRE_EURO_CACHE;
-				break;
-			case Region_Constants.NORTH_AMERICA_REGION:
-				cache = CacheBRE_Constants.FUEL_BRE_NA_CACHE;
-				break;
-			case Region_Constants.SOUTH_AMERICA_REGION:
-				cache = CacheBRE_Constants.FUEL_BRE_SA_CACHE;
-				break;
-			default:
-				break;
-		}
-		return cache;
-	}
 
-	public String getTollsCacheName(String region) {
+	public String getTollsFuelCacheName(String region) {
 		String cache = null;
 		switch (region) {
 			case Region_Constants.EUROPE_REGION:
