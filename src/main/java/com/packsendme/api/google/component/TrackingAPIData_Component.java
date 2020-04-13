@@ -130,6 +130,10 @@ public class TrackingAPIData_Component {
 			    System.out.println(" ====================================================================");
 			    System.out.println(" 2 ENTROU AQUI");
 				distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
+				System.out.println(" 2 distance_dto "+ distance_dto.distance);
+				System.out.println(" 2 countryName "+ countryName);
+				System.out.println(" 2 tolls_amount "+ tolls_amount);
+				System.out.println(" 2 tollsFuel_Cache "+ tollsFuel_Cache.name_rule);
 		    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, tollsFuel_Cache, distance_dto);
 			    tracking_map.put(countryName, trackingResponse_Dto);
 			    System.out.println(" 2 SAIU AQUI");
@@ -162,6 +166,7 @@ public class TrackingAPIData_Component {
 		
 		if(tolls_amount > 0) {
 			if(tollsFuelObjResult != null) {
+				
 				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distance,
 						tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
 			}
