@@ -69,18 +69,19 @@ public class TollsFuelTrackingData_Component {
 		
 		String regionCountry = getRegionCountryByJson(regionJsonObj);
 		String fuelRegionCache = getFuelCacheName(regionCountry);
+
+
+		System.out.println("===============================================================================");
+		System.out.println(" STATUS fuelRegionCache "+ fuelRegionCache);
+		System.out.println(" STATUS regionCountry "+ regionCountry);
+		System.out.println("===============================================================================");
+		
 		
 		try {
 			ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getTollsFuelBRE_SA(fuelRegionCache);
 			if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 				String jsonPayload = fuelResponse_Entity.getBody().toString();
 				Response<Object> response = gson.fromJson(jsonPayload, Response.class);
-				
-				System.out.println("===============================================================================");
-				System.out.println(" STATUS RULE "+ response.getResponseCode());
-				System.out.println("===============================================================================");
-				
-				
 				if(response.getResponseCode() == HttpExceptionPackSend.FOUND_BUSINESS_RULE.value()) {
 					System.out.println(" MY OBJECT  "+ response.getBody().toString());
 					String jsonObject = response.getBody().toString();
