@@ -111,9 +111,14 @@ public class TrackingAPIData_Component {
 				    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, tollsFuel_Cache, distance_dto);
 						tolls_amount = 0;
 				    }
+
+				    System.out.println(" ====================================================================");
+				    System.out.println(" 1 ENTROU AQUI");
 				    tracking_map.put(countryName, trackingResponse_Dto);
 			    	countryName = separationElementObj.subStringCountry(scheme);
 			    	countryNameChange = countryName;
+				    System.out.println(" 1 SAIU AQUI");
+				    System.out.println(" ====================================================================");
 			    
 			    	// Analyze Tolls in Direction JSON-GOOGLE
 			    	if (separationElementObj.analyzeContain(scheme,ANALYSE_PATTERN_TOLLS) == true){
@@ -122,9 +127,14 @@ public class TrackingAPIData_Component {
 				    jsonHtmlInstLast = jsonHtmlInst;
 				}
 				
+			    System.out.println(" ====================================================================");
+			    System.out.println(" 2 ENTROU AQUI");
 				distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
 		    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, tollsFuel_Cache, distance_dto);
 			    tracking_map.put(countryName, trackingResponse_Dto);
+			    System.out.println(" 2 SAIU AQUI");
+			    System.out.println(" ====================================================================");
+
 			}
 			if (tracking_map.size() > 0) {
 				googleTrackingResponse_dto.status = true;
