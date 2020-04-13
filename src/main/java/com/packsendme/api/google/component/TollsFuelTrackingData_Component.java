@@ -75,6 +75,12 @@ public class TollsFuelTrackingData_Component {
 			if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 				String jsonPayload = fuelResponse_Entity.getBody().toString();
 				Response<Object> response = gson.fromJson(jsonPayload, Response.class);
+				
+				System.out.println("===============================================================================");
+				System.out.println(" STATUS RULE "+ response.getResponseCode());
+				System.out.println("===============================================================================");
+				
+				
 				if(response.getResponseCode() == HttpExceptionPackSend.FOUND_BUSINESS_RULE.value()) {
 					System.out.println(" MY OBJECT  "+ response.getBody().toString());
 					String jsonObject = response.getBody().toString();
