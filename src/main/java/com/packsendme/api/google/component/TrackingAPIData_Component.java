@@ -110,16 +110,10 @@ public class TrackingAPIData_Component {
 				    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulation);
 				    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, tollsFuel_Cache, distance_dto);
 						tolls_amount = 0;
+					    tracking_map.put(countryName, trackingResponse_Dto);
+				    	countryName = separationElementObj.subStringCountry(scheme);
+				    	countryNameChange = countryName;
 				    }
-
-				    System.out.println(" ====================================================================");
-				    System.out.println(" 1 ENTROU AQUI");
-				    tracking_map.put(countryName, trackingResponse_Dto);
-			    	countryName = separationElementObj.subStringCountry(scheme);
-			    	countryNameChange = countryName;
-				    System.out.println(" 1 SAIU AQUI");
-				    System.out.println(" ====================================================================");
-			    
 			    	// Analyze Tolls in Direction JSON-GOOGLE
 			    	if (separationElementObj.analyzeContain(scheme,ANALYSE_PATTERN_TOLLS) == true){
 				    	tolls_amount++;
