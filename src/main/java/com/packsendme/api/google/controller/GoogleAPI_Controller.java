@@ -29,7 +29,7 @@ public class GoogleAPI_Controller {
 	}
 
 	@GetMapping("/tracking")
-	public ResponseEntity<?> getCostsTolls(
+	public ResponseEntity<?> getTracking(
 			@Validated @RequestBody SimulationRequest_Dto simulation) throws JsonProcessingException, IOException {
 		return api_Service.getTrackingRoadwayAPI(simulation);
 	}
