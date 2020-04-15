@@ -6,13 +6,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.packsendme.api.google.config.Cache_Config;
 import com.packsendme.api.google.controller.IBusinessManager_SA_Client;
-import com.packsendme.lib.common.constants.CacheBRE_Constants;
 import com.packsendme.lib.common.constants.HttpExceptionPackSend;
 import com.packsendme.lib.common.constants.Region_Constants;
 import com.packsendme.lib.common.response.Response;
@@ -20,6 +21,7 @@ import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model;
 
 @Component
 @EnableFeignClients(basePackages="com.packsendme.api.google.controller")
+@ComponentScan("com.packsendme.api.google.config")
 public class TollsFuelTrackingData_Component {
 	
 	@Autowired
@@ -30,6 +32,10 @@ public class TollsFuelTrackingData_Component {
 	
 	@Autowired(required=true)
 	IBusinessManager_SA_Client businessManager_SA_Client;
+	
+	@Autowired
+	private Cache_Config cache_config;
+	
 	
 	private final String ANALYSE_ARRAY_RESULT = "results";
 	private final String ANALYSE_ELEMENT_ADDRESS = "address_components";
@@ -108,19 +114,18 @@ public class TollsFuelTrackingData_Component {
 		String cache = null;
 		switch (region) {
 			case Region_Constants.EUROPE_REGION:
-				cache = CacheBRE_Constants.TOLLS_BRE_EURO_CACHE;
+				cache = cache_config.tollsfuelBRE_EURO;
 				break;
 			case Region_Constants.NORTH_AMERICA_REGION:
-				cache = CacheBRE_Constants.TOLLS_BRE_NA_CACHE;
+				cache = cache_config.tollsfuelBRE_NA;
 				break;
 			case Region_Constants.SOUTH_AMERICA_REGION:
-				cache = CacheBRE_Constants.TOLLSFUEL_BRE_SA_CACHE;
+				cache = cache_config.tollsfuelBRE_SA;
 				break;
 			default:
 				break;
 		}
 		return cache;
 	}
-
 
 }

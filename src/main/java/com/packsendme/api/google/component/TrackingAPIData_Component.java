@@ -14,11 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.packsendme.api.google.dto.GoogleAPIDistanceResponse_Dto;
-import com.packsendme.api.google.dto.GoogleAPITrackingResponse_Dto;
-import com.packsendme.api.google.dto.RoadwayTrackingResponse_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
 import com.packsendme.lib.common.constants.GoogleAPI_Constants;
+import com.packsendme.lib.common.response.api.google.GoogleAPIDistanceResponse_Dto;
+import com.packsendme.lib.common.response.api.google.GoogleAPITrackingResponse_Dto;
+import com.packsendme.lib.common.response.api.google.RoadwayTrackingResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model;
 import com.packsendme.tollsfuel.bre.rule.price.model.TollsFuelPriceCountryBRE_Model;
