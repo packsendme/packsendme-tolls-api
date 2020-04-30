@@ -15,10 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.packsendme.api.google.utility.SeparationElementTools;
-import com.packsendme.lib.common.constants.GoogleAPI_Constants;
-import com.packsendme.lib.common.response.api.google.GoogleAPIDistanceResponse_Dto;
-import com.packsendme.lib.common.response.api.google.GoogleAPITrackingResponse_Dto;
-import com.packsendme.lib.common.response.api.google.RoadwayTrackingResponse_Dto;
+import com.packsendme.lib.common.constants.generic.GoogleAPI_Constants;
+import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
+import com.packsendme.lib.common.response.dto.api.GoogleAPITrackingResponse_Dto;
+import com.packsendme.lib.common.response.dto.api.RoadwayTrackingResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model;
 import com.packsendme.tollsfuel.bre.rule.price.model.TollsFuelPriceCountryBRE_Model;
@@ -43,7 +43,10 @@ public class TrackingAPIData_Component {
 	private final String ANALYSE_ELEMENT_STARTLOCATION = "start_location";
 	private final String ANALYSE_ELEMENT_ENDLOCATION = "end_location";
 	private final String ANALYSE_ELEMENT_DISTANCE = "distance";
+	private final String ANALYSE_ELEMENT_DURATION = "duration";
 	private final String ANALYSE_ELEMENT_TEXT = "text";
+	private final String ANALYSE_ELEMENT_VALUE = "value";
+
 	
 	Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
 	int count = 0;
@@ -83,6 +86,12 @@ public class TrackingAPIData_Component {
 			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
 			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_TEXT).toString();
 			    	googleTrackingResponse_dto.distance_total = separationElementObj.getDistanceParse(distanceS);
+			    	
+			    	// GET DURATION / SECOND
+			    	Map duration_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DURATION));
+			    	String durationS = duration_map.get(ANALYSE_ELEMENT_VALUE).toString();
+			    	googleTrackingResponse_dto.duration = Integer.parseInt(durationS);
+
 			    	
 			    	// Find Distance (Origin Location)
 		        	distance_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START, simulation);

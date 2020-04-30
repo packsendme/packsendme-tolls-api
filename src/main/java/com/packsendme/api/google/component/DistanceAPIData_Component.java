@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.packsendme.api.google.utility.SeparationElementTools;
-import com.packsendme.lib.common.response.api.google.GoogleAPIDistanceResponse_Dto;
+import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 
 @Component
