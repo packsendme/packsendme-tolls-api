@@ -14,8 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.packsendme.lib.common.constants.GoogleAPI_Constants;
-import com.packsendme.lib.common.constants.HttpExceptionPackSend;
+import com.packsendme.lib.common.constants.generic.GoogleAPI_Constants;
+import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 

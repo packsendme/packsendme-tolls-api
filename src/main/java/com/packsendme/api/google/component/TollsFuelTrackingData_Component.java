@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import com.packsendme.api.google.config.Cache_Config;
 import com.packsendme.api.google.controller.IBusinessManager_SA_Client;
-import com.packsendme.lib.common.constants.HttpExceptionPackSend;
-import com.packsendme.lib.common.constants.Region_Constants;
+import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
+import com.packsendme.lib.common.constants.generic.Region_Constants;
 import com.packsendme.lib.common.response.Response;
 import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model;
 

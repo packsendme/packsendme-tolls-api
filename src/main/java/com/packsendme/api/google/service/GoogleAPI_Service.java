@@ -14,11 +14,11 @@ import com.packsendme.api.google.component.DistanceAPIData_Component;
 import com.packsendme.api.google.component.TollsFuelTrackingData_Component;
 import com.packsendme.api.google.component.TrackingAPIData_Component;
 import com.packsendme.api.google.utility.SeparationElementTools;
-import com.packsendme.lib.common.constants.GoogleAPI_Constants;
-import com.packsendme.lib.common.constants.HttpExceptionPackSend;
+import com.packsendme.lib.common.constants.generic.GoogleAPI_Constants;
+import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
-import com.packsendme.lib.common.response.api.google.GoogleAPIDistanceResponse_Dto;
-import com.packsendme.lib.common.response.api.google.GoogleAPITrackingResponse_Dto;
+import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
+import com.packsendme.lib.common.response.dto.api.GoogleAPITrackingResponse_Dto;
 import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
 import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model; 
 
