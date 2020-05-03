@@ -18,6 +18,7 @@ public class DistanceAPIData_Component {
 	private final String ANALYSE_ELEMENTS_STATUS = "status";
 	private final String ANALYSE_ELEMENTS_DISTANCE = "distance";
 	private final String ANALYSE_ELEMENTS_TEXT = "text";
+	private final String ANALYSE_ELEMENTS_VALUE = "value";
 
 	
 	public GoogleAPIDistanceResponse_Dto getDistanceDataByJson (JSONObject jsonObject, SimulationRequest_Dto simulation) {
@@ -40,8 +41,10 @@ public class DistanceAPIData_Component {
 			            JsonNode distanceNode = elementObj.path(ANALYSE_ELEMENTS_DISTANCE);
 			            distanceResponse_dto.origin = simulation.address_origin;
 			            distanceResponse_dto.destination = simulation.address_destination;
-			            String distanceS = distanceNode.path(ANALYSE_ELEMENTS_TEXT).asText();
-			            distanceResponse_dto.distance = separationElementObj.getDistanceParse(distanceS);
+			            String distanceF = distanceNode.path(ANALYSE_ELEMENTS_TEXT).asText();
+			            String distanceM = distanceNode.path(ANALYSE_ELEMENTS_VALUE).asText();
+			            distanceResponse_dto.distanceM = Double.parseDouble(distanceM);
+			            distanceResponse_dto.distanceF = separationElementObj.getDistanceParse(distanceF);
 			            distanceResponse_dto.measureUnit = simulation.unity_measurement_distance_txt;
 			            distanceResponse_dto.status = status;
 					}
@@ -49,7 +52,8 @@ public class DistanceAPIData_Component {
 			            distanceResponse_dto.origin = simulation.address_origin;
 			            distanceResponse_dto.destination = simulation.address_destination;
 			            distanceResponse_dto.measureUnit = simulation.unity_measurement_distance_txt;
-			            distanceResponse_dto.distance = 0;
+			            distanceResponse_dto.distanceM = 0;
+			            distanceResponse_dto.distanceF = 0;
 			            distanceResponse_dto.status = status;
 					}
 				}	
