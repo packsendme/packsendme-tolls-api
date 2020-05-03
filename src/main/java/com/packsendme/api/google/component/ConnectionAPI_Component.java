@@ -59,7 +59,7 @@ public class ConnectionAPI_Component {
 			else {
 			    uriParam.put("origin", simulation.address_origin);
 			    uriParam.put("destination", simulation.address_destination);
-			    uriParam.put("units", getUnity(simulation.getUnity_measurement_distance_txt()));
+			    uriParam.put("units", getUnity(simulation.unity_measurement_distance_txt));
 			}
 		    uriParam.put("key", key_api);
 		    uriParam.put("travel_mode", "DRIVING");

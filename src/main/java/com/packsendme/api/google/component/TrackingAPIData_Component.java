@@ -133,7 +133,8 @@ public class TrackingAPIData_Component {
 			    System.out.println(" ====================================================================");
 			    System.out.println(" 2 ENTROU AQUI");
 				distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulation);
-				System.out.println(" 2 distance_dto "+ distance_dto.distance);
+				System.out.println(" 2 distance_dto M "+ distance_dto.distanceM);
+				System.out.println(" 2 distance_dto F "+ distance_dto.distanceF);
 				System.out.println(" 2 countryName "+ countryName);
 				System.out.println(" 2 tolls_amount "+ tolls_amount);
 				System.out.println(" 2 tollsFuel_Cache "+ tollsFuel_Cache.name_rule);
@@ -170,16 +171,16 @@ public class TrackingAPIData_Component {
 		if(tolls_amount > 0) {
 			if(tollsFuelObjResult != null) {
 				
-				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distance,
-						tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
+				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distanceF,
+						distance.distanceM,tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
 			}
 			else {
-				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distance,
+				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distanceF, distance.distanceM,
 	    				AVERAGE_PRICE_DEFAULT,null,null);
 			}
 		}
 		else{
-			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance.distance,
+			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance.distanceF,distance.distanceM,
 					tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
 		}
 		return trackingResponse_dto;
@@ -239,7 +240,8 @@ public class TrackingAPIData_Component {
     		    		System.out.println(" ================================================== ");
     	    			System.out.println(" address_origin "+ simulation.address_origin);
     	    			System.out.println(" address_destination "+ simulation.address_destination);
-    	    	    	System.out.println(" distance "+ distanceResponse_dto.distance);
+    	    	    	System.out.println(" distance "+ distanceResponse_dto.distanceF);
+    	    	    	System.out.println(" distance "+ distanceResponse_dto.distanceM);
     	    	    	System.out.println(" ================================================== ");
     	    	    	latlongHistory_map = new HashMap<Integer, String>();
     	    	    	count = 0;
