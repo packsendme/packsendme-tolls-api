@@ -84,8 +84,8 @@ public class TrackingAPIData_Component {
 			    	
 			    	// GET TOTAL DISTANCE
 			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
-			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_TEXT).toString();
-			    	googleTrackingResponse_dto.distance_total = separationElementObj.getDistanceParse(distanceS);
+			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_VALUE).toString();
+			    	googleTrackingResponse_dto.distance_total = Double.parseDouble(distanceS);  //separationElementObj.getDistanceParse(distanceS);
 			    	
 			    	// GET DURATION / SECOND
 			    	Map duration_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DURATION));
