@@ -19,7 +19,7 @@ import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
 import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
 import com.packsendme.lib.common.response.dto.api.GoogleAPITrackingResponse_Dto;
-import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
+import com.packsendme.lib.simulation.http.SimulationRequest_Dto;
 import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model; 
 
 @Service

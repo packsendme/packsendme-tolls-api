@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.packsendme.lib.common.constants.generic.GoogleAPI_Constants;
 import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
-import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
+import com.packsendme.lib.simulation.http.SimulationRequest_Dto;
 
 
 enum UnityMeasurement {
