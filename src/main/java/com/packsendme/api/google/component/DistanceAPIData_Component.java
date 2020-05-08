@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.packsendme.api.google.utility.SeparationElementTools;
 import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
-import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
+import com.packsendme.lib.simulation.http.SimulationRequest_Dto;
 
 @Component
 public class DistanceAPIData_Component {

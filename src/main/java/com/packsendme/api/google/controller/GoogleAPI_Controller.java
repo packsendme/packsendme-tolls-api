@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.packsendme.api.google.service.GoogleAPI_Service;
-import com.packsendme.lib.simulation.request.dto.SimulationRequest_Dto;
+import com.packsendme.lib.simulation.http.SimulationRequest_Dto;
 
 
 @RestController
