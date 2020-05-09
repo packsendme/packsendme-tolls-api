@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class GoogleAPI_Controller {
 		return api_Service.getDistancesAPI(simulation);
 	}
 
-	@GetMapping("/tracking")
+	@PostMapping("/tracking")
 	public ResponseEntity<?> getTracking(
 			@Validated @RequestBody SimulationRequest_Dto simulation) throws JsonProcessingException, IOException {
 		return api_Service.getTrackingRoadwayAPI(simulation);
