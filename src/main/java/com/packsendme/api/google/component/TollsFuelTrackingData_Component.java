@@ -47,6 +47,12 @@ public class TollsFuelTrackingData_Component {
 	// Parser Json Result Google API - Geo 
 	public String getRegionCountryByJson(JSONObject regionJsonObj) {
 		String resultLocation = null, locationParse = null;
+		
+		
+		System.out.print(" ----------------------------");
+		System.out.print(" JSON getRegionCountryByJson "+ regionJsonObj.toJSONString());
+		System.out.print(" ----------------------------");
+		
 		try {
     		JSONArray resultArray = (JSONArray) regionJsonObj.get(ANALYSE_ARRAY_RESULT);
 		    Iterator<JSONObject> iterator = resultArray.iterator();
@@ -54,6 +60,7 @@ public class TollsFuelTrackingData_Component {
 		    	JSONObject resultJson = iterator.next();
 		        JSONArray addressArray = (JSONArray) resultJson.get(ANALYSE_ELEMENT_ADDRESS);  
 		        for (Iterator addressIt = addressArray.iterator(); addressIt.hasNext();) {
+		        	
 		        	JSONObject addressJson = (JSONObject) addressIt.next();
 		            locationParse = addressJson.get(ANALYSE_ELEMENT_SHORTNAME).toString();
 	            }
