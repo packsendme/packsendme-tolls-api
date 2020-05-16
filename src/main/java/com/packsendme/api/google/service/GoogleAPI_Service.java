@@ -48,7 +48,22 @@ public class GoogleAPI_Service {
 		Response<GoogleAPITrackingResponse_Dto> responseObj = null;
 		String trackingJsonBody = null, geocodeJsonBody = null;
 		try {
+
+			System.out.println(" ");
+			System.out.println("======    PARAMETROS  1  ========================================================");
+			System.out.println(" GoogleAPITrackingResponse_Dto Oringn "+ simulation.address_origin);
+			System.out.println(" GoogleAPITrackingResponse_Dto Destionation "+ simulation.address_destination);
+			System.out.println("===============================================================================");
+
+			
 			String regionCountry = elementTools.subStringCountryFrom(simulation.address_origin);
+			
+			System.out.println(" ");
+			System.out.println("======    PARAMETROS  2  ========================================================");
+			System.out.println(" GoogleAPITrackingResponse_Dto regionCountry "+ regionCountry);
+			System.out.println("===============================================================================");
+
+			
 			// Call API Google -> Direction/Geocode 
 			ResponseEntity<String> responseAPITracking = connectionAPI.connectionGoogleAPI(simulation, null, API_TOLLS);
 			ResponseEntity<String> responseAPIGeocode = connectionAPI.connectionGoogleAPI(null, regionCountry, GoogleAPI_Constants.API_GEOCODE);
@@ -60,8 +75,15 @@ public class GoogleAPI_Service {
 		    	JSONParser parser = new JSONParser();
 		    	JSONObject trackingJsonObject = (JSONObject) parser.parse(trackingJsonBody);
 		    	JSONObject geocodeJsonObject = (JSONObject) parser.parse(geocodeJsonBody);
+		    	
+		    	System.out.println(" ");
+				System.out.println("======    PARAMETROS  4  ========================================================");
+				System.out.println(" GoogleAPITrackingResponse_Dto regionCountry "+ geocodeJsonObject.toString());
+				System.out.println("===============================================================================");
+
 			    
 	    		// GET Fuel AND Tolls BRE-Cache 
+		    	
 	    		TollsFuelBRE_Model tollsFuelBREObj = tollsFuelRoadwayData_Component.getTollsFuelBREFromCache(geocodeJsonObject) ;
 		    	
 	    		// Get TrackingBRE -> ParserData
