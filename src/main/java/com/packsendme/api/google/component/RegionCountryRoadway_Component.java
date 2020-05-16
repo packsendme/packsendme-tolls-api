@@ -268,6 +268,10 @@ public class RegionCountryRoadway_Component {
 	}
 	
 	public String findCountry(String key) {
+		System.out.println(" ");
+		System.out.println(" ------------------------------ ");
+		System.out.println(" VALOR KEY "+ key);
+		System.out.println(" ------------------------------ ");
 		return locMap.get(key).toString();
 	}
 

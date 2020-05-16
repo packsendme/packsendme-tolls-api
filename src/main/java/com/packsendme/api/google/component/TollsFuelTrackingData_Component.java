@@ -58,6 +58,11 @@ public class TollsFuelTrackingData_Component {
 		            locationParse = addressJson.get(ANALYSE_ELEMENT_SHORTNAME).toString();
 	            }
 		     }
+		    
+			System.out.print(" ----------------------------");
+			System.out.print(" RESULTADOR COUNTRY LOCATION "+ locationParse);
+			System.out.print(" ----------------------------");
+
 			resultLocation = location_component.findCountry(locationParse);
 			System.out.print(" RESULTADOR COUNTRY LOCATION "+ resultLocation);
 			return resultLocation;
