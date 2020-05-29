@@ -2,8 +2,8 @@ feign:
   client:
     config:
       feignName:
-        connectTimeout: 90000
-        readTimeout: 90000
+        connectTimeout: 100000
+        readTimeout: 190000
         loggerLevel: full
 
 hystrix:
