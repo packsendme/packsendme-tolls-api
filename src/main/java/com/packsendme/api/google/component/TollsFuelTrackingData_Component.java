@@ -1,6 +1,7 @@
 package com.packsendme.api.google.component;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.google.gson.Gson;
 import com.packsendme.api.google.config.Cache_Config;
@@ -81,7 +83,7 @@ public class TollsFuelTrackingData_Component {
 		}
 	}
 	
-	public TollsFuelBRE_Model getTollsFuelBREFromCache(JSONObject regionJsonObj) {
+	public TollsFuelBRE_Model getTollsFuelBREFromCache(JSONObject regionJsonObj, Map header) {
 		Gson gson = new Gson();
 		TollsFuelBRE_Model tollsFuelObj = null;
 		
@@ -96,7 +98,9 @@ public class TollsFuelTrackingData_Component {
 		
 		
 		try {
-			ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getTollsFuelBRE_SA(fuelRegionCache);
+			ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getTollsFuelBRE_SA(header.get("isoLanguageCode").toString(), header.get("isoCountryCode").toString(),
+					header.get("isoCurrencyCode").toString(),header.get("originApp").toString(),fuelRegionCache);
+			
 			if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
 				String jsonPayload = fuelResponse_Entity.getBody().toString();
 				Response<Object> response = gson.fromJson(jsonPayload, Response.class);
