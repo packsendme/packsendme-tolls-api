@@ -1,5 +1,7 @@
 package com.packsendme.api.google.service;
 
+import java.util.Map;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -44,7 +46,7 @@ public class GoogleAPI_Service {
 	
 	private GoogleAPITrackingResponse_Dto trackingResponse_Dto = new GoogleAPITrackingResponse_Dto(); 
 	
-	public ResponseEntity<?> getTrackingRoadwayAPI(SimulationRequest_Dto simulation) {
+	public ResponseEntity<?> getTrackingRoadwayAPI(SimulationRequest_Dto simulation, Map header) {
 		Response<GoogleAPITrackingResponse_Dto> responseObj = null;
 		String trackingJsonBody = null, geocodeJsonBody = null;
 		try {
@@ -83,8 +85,7 @@ public class GoogleAPI_Service {
 
 			    
 	    		// GET Fuel AND Tolls BRE-Cache 
-		    	
-	    		TollsFuelBRE_Model tollsFuelBREObj = tollsFuelRoadwayData_Component.getTollsFuelBREFromCache(geocodeJsonObject) ;
+	    		TollsFuelBRE_Model tollsFuelBREObj = tollsFuelRoadwayData_Component.getTollsFuelBREFromCache(geocodeJsonObject, header) ;
 		    	
 	    		// Get TrackingBRE -> ParserData
 	    		if(tollsFuelBREObj != null){
@@ -108,7 +109,7 @@ public class GoogleAPI_Service {
 		}
 	}
 	
-	public ResponseEntity<?> getDistancesAPI(SimulationRequest_Dto simulation) {
+	public ResponseEntity<?> getDistancesAPI(SimulationRequest_Dto simulation, Map header) {
 		Response<GoogleAPIDistanceResponse_Dto> responseObj = null;
 		GoogleAPIDistanceResponse_Dto distanceResponse_dto = new GoogleAPIDistanceResponse_Dto();
 		try {
