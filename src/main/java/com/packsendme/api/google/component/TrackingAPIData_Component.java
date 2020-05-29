@@ -43,7 +43,6 @@ public class TrackingAPIData_Component {
 	private final String ANALYSE_ELEMENT_ENDLOCATION = "end_location";
 	private final String ANALYSE_ELEMENT_DISTANCE = "distance";
 	private final String ANALYSE_ELEMENT_DURATION = "duration";
-	private final String ANALYSE_ELEMENT_TEXT = "text";
 	private final String ANALYSE_ELEMENT_VALUE = "value";
 
 	
@@ -171,16 +170,16 @@ public class TrackingAPIData_Component {
 			if(tollsFuelObjResult != null) {
 				
 				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distanceF,
-						distance.distanceM,tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
+						distance.distanceM,tollsFuelObjResult.fuel_price,tollsFuelObjResult.unity_measurement_distance);
 			}
 			else {
 				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distanceF, distance.distanceM,
-	    				AVERAGE_PRICE_DEFAULT,null,null);
+	    				AVERAGE_PRICE_DEFAULT,null);
 			}
 		}
 		else{
 			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance.distanceF,distance.distanceM,
-					tollsFuelObjResult.fuel_price,tollsFuelObjResult.currency_price,tollsFuelObjResult.unity_measurement_distance);
+					tollsFuelObjResult.fuel_price,tollsFuelObjResult.unity_measurement_distance);
 		}
 		return trackingResponse_dto;
 	}
@@ -188,14 +187,9 @@ public class TrackingAPIData_Component {
 	//****************************************************************************************************************************//
 	// FIND FUEL AND TOLLS IN BRE
 	//****************************************************************************************************************************//
-	public TollsFuelPriceCountryBRE_Model getTollsFuelPriceFromCountry(String countryName, TollsFuelBRE_Model tollsFuelObj) {
-		for(TollsFuelPriceCountryBRE_Model tollsFuelPrice : tollsFuelObj.tollsfuelPriceCountry) {
-    		System.out.println("getFuelPriceFromObjBRE - COUNTRY NAME "+ countryName);
-			if(countryName.equals(tollsFuelPrice.country_name)) {
-				return tollsFuelPrice;
-			}
-		}
-		return null;
+	public TollsFuelPriceCountryBRE_Model getTollsFuelPriceFromCountry(String countryName, TollsFuelBRE_Model tollsFuelBRE) {
+		TollsFuelPriceCountryBRE_Model tollsfuelPriceCountry = tollsFuelBRE.tollsfuelPriceCountry.get(countryName);
+		return tollsfuelPriceCountry;
 	}
 	    
 	
