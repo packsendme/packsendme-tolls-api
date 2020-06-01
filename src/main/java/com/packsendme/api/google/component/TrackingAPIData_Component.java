@@ -170,7 +170,7 @@ public class TrackingAPIData_Component {
 			if(tollsFuelObjResult != null) {
 				
 				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distanceF,
-						distance.distanceM,tollsFuelObjResult.fuel_price,tollsFuelObjResult.unity_measurement_distance);
+						distance.distanceM,tollsFuelObjResult.fuelGasoline_price, tollsFuelObjResult.fuelDiesel_price);
 			}
 			else {
 				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distanceF, distance.distanceM,
@@ -179,7 +179,7 @@ public class TrackingAPIData_Component {
 		}
 		else{
 			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance.distanceF,distance.distanceM,
-					tollsFuelObjResult.fuel_price,tollsFuelObjResult.unity_measurement_distance);
+					tollsFuelObjResult.fuelGasoline_price,tollsFuelObjResult.fuelDiesel_price);
 		}
 		return trackingResponse_dto;
 	}
