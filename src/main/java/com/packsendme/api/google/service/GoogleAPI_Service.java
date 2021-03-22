@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.packsendme.api.google.component.ConnectionAPI_Component;
 import com.packsendme.api.google.component.DistanceAPIData_Component;
-import com.packsendme.api.google.component.TollsFuelTrackingData_Component;
 import com.packsendme.api.google.component.TrackingAPIData_Component;
 import com.packsendme.api.google.dto.SimulationRequestGoogle_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
@@ -22,7 +21,6 @@ import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
 import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
 import com.packsendme.lib.common.response.dto.api.GoogleAPITrackingResponse_Dto;
-import com.packsendme.roadbrewa.entity.TollsFuel;
 
 @Service
 @ComponentScan("com.packsendme.api.google.component")
@@ -32,13 +30,11 @@ public class GoogleAPI_Service {
 	private TrackingAPIData_Component trackingData_Component;
 	@Autowired
 	private DistanceAPIData_Component analyzeDistance_Component;
-	@Autowired
-	private TollsFuelTrackingData_Component tollsFuelRoadwayData_Component;
 	
 	@Autowired
 	ConnectionAPI_Component connectionAPI;
 	
-	@Autowired
+	@Autowired(required=true)
 	SimulationRequestGoogle_Dto simulationRequestDto;
 	
 	SeparationElementTools elementTools = new SeparationElementTools();
