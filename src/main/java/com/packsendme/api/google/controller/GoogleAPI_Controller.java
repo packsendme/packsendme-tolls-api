@@ -50,7 +50,7 @@ public class GoogleAPI_Controller {
 	}
 	
 	
-	@PostMapping("/tracking")
+	@GetMapping("/distance/{from}/{to}/{measurement}")
 	public ResponseEntity<?> getTracking(
 			@RequestHeader("isoLanguageCode") String isoLanguageCode, 
 			@RequestHeader("isoCountryCode") String isoCountryCode,
