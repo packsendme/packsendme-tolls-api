@@ -15,14 +15,14 @@ import com.packsendme.api.google.component.ConnectionAPI_Component;
 import com.packsendme.api.google.component.DistanceAPIData_Component;
 import com.packsendme.api.google.component.TollsFuelTrackingData_Component;
 import com.packsendme.api.google.component.TrackingAPIData_Component;
+import com.packsendme.api.google.dto.SimulationRequestGoogle_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
 import com.packsendme.lib.common.constants.generic.GoogleAPI_Constants;
 import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
 import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
 import com.packsendme.lib.common.response.dto.api.GoogleAPITrackingResponse_Dto;
-import com.packsendme.lib.simulation.http.SimulationRequest_Dto;
-import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model; 
+import com.packsendme.roadbrewa.entity.TollsFuel;
 
 @Service
 @ComponentScan("com.packsendme.api.google.component")
@@ -38,6 +38,9 @@ public class GoogleAPI_Service {
 	@Autowired
 	ConnectionAPI_Component connectionAPI;
 	
+	@Autowired
+	SimulationRequestGoogle_Dto simulationRequestDto;
+	
 	SeparationElementTools elementTools = new SeparationElementTools();
 	
 	private final String API_DISTANCE = "GOOGLE_PLACE_DISNTACE";
@@ -46,19 +49,20 @@ public class GoogleAPI_Service {
 	
 	private GoogleAPITrackingResponse_Dto trackingResponse_Dto = new GoogleAPITrackingResponse_Dto(); 
 	
-	public ResponseEntity<?> getTrackingRoadwayAPI(SimulationRequest_Dto simulation, Map header) {
+	public ResponseEntity<?> getTrackingRoadwayAPI(String from, String to, String measurement, Map header) {
 		Response<GoogleAPITrackingResponse_Dto> responseObj = null;
 		String trackingJsonBody = null, geocodeJsonBody = null;
 		try {
+			
+			simulationRequestDto = new SimulationRequestGoogle_Dto(from, to, measurement);
 
 			System.out.println(" ");
 			System.out.println("======    PARAMETROS  1  ========================================================");
-			System.out.println(" GoogleAPITrackingResponse_Dto Oringn "+ simulation.address_origin);
-			System.out.println(" GoogleAPITrackingResponse_Dto Destionation "+ simulation.address_destination);
+			System.out.println(" GoogleAPITrackingResponse_Dto Origin "+ from +" Destionation "+ to);
 			System.out.println("===============================================================================");
 
 			
-			String regionCountry = elementTools.subStringCountryFrom(simulation.address_origin);
+			String regionCountry = elementTools.subStringCountryFrom(from);
 			
 			System.out.println(" ");
 			System.out.println("======    PARAMETROS  2  ========================================================");
@@ -66,8 +70,8 @@ public class GoogleAPI_Service {
 			System.out.println("===============================================================================");
 
 			
-			// Call API Google -> Direction/Geocode 
-			ResponseEntity<String> responseAPITracking = connectionAPI.connectionGoogleAPI(simulation, null, API_TOLLS);
+			// Call API Google -> Direction/Geocode
+			ResponseEntity<String> responseAPITracking = connectionAPI.connectionGoogleAPI(simulationRequestDto, null, API_TOLLS);
 			ResponseEntity<String> responseAPIGeocode = connectionAPI.connectionGoogleAPI(null, regionCountry, GoogleAPI_Constants.API_GEOCODE);
 			
 			// Result APIs Direction/Geocode
@@ -85,16 +89,11 @@ public class GoogleAPI_Service {
 
 			    
 	    		// GET Fuel AND Tolls BRE-Cache 
-	    		TollsFuelBRE_Model tollsFuelBREObj = tollsFuelRoadwayData_Component.getTollsFuelBREFromCache(geocodeJsonObject, header) ;
+//	    		TollsFuel tollsFuelObj = tollsFuelRoadwayData_Component.getTollsFuelBREFromCache(geocodeJsonObject, header) ;
 		    	
 	    		// Get TrackingBRE -> ParserData
-	    		if(tollsFuelBREObj != null){
-	    			trackingResponse_Dto = trackingData_Component.getTrackingDataByJson(trackingJsonObject, simulation, tollsFuelBREObj);
-			    	responseObj = new Response<GoogleAPITrackingResponse_Dto>(HttpExceptionPackSend.GOOGLEAPI_PLACE.value(),HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), trackingResponse_Dto);
-		    	}
-	    		else {
-			    	responseObj = new Response<GoogleAPITrackingResponse_Dto>(HttpExceptionPackSend.NOT_FOUND_GOOGLEAPI_PLACE.value(),HttpExceptionPackSend.NOT_FOUND_GOOGLEAPI_PLACE.getAction(), null);
-	    		}
+    			trackingResponse_Dto = trackingData_Component.getTrackingDataByJson(trackingJsonObject, simulationRequestDto);
+		    	responseObj = new Response<GoogleAPITrackingResponse_Dto>(HttpExceptionPackSend.GOOGLEAPI_PLACE.value(),HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), trackingResponse_Dto);
 				return new ResponseEntity<>(responseObj, HttpStatus.ACCEPTED);
 		    }
 		    else {
@@ -109,11 +108,13 @@ public class GoogleAPI_Service {
 		}
 	}
 	
-	public ResponseEntity<?> getDistancesAPI(SimulationRequest_Dto simulation, Map header) {
+	public ResponseEntity<?> getDistancesAPI(String from, String to, String measurement, Map header) {
 		Response<GoogleAPIDistanceResponse_Dto> responseObj = null;
 		GoogleAPIDistanceResponse_Dto distanceResponse_dto = new GoogleAPIDistanceResponse_Dto();
+		simulationRequestDto = new SimulationRequestGoogle_Dto(from, to, measurement);
+
 		try {
-		    ResponseEntity<String> response = connectionAPI.connectionGoogleAPI(simulation, null, API_DISTANCE);
+		    ResponseEntity<String> response = connectionAPI.connectionGoogleAPI(simulationRequestDto, null, API_DISTANCE);
 
 			if (response.getStatusCode() == HttpStatus.OK) {
 				String jsonData = response.getBody();
@@ -121,7 +122,7 @@ public class GoogleAPI_Service {
 		    	JSONObject jsonObject = (JSONObject) parser.parse(jsonData);
 		    	
 		    	if(jsonObject.get("status").equals("OK")) {
-		    		distanceResponse_dto = analyzeDistance_Component.getDistanceDataByJson(jsonObject,simulation);
+		    		distanceResponse_dto = analyzeDistance_Component.getDistanceDataByJson(jsonObject, simulationRequestDto);
 					responseObj = new Response<GoogleAPIDistanceResponse_Dto>(0,HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), distanceResponse_dto);
 					return new ResponseEntity<>(responseObj, HttpStatus.ACCEPTED);
 		    	}

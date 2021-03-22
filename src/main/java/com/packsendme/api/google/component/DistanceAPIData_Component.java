@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.packsendme.api.google.dto.SimulationRequestGoogle_Dto;
 import com.packsendme.api.google.utility.SeparationElementTools;
 import com.packsendme.lib.common.response.dto.api.GoogleAPIDistanceResponse_Dto;
 import com.packsendme.lib.simulation.http.SimulationRequest_Dto;
@@ -21,7 +22,7 @@ public class DistanceAPIData_Component {
 	private final String ANALYSE_ELEMENTS_VALUE = "value";
 
 	
-	public GoogleAPIDistanceResponse_Dto getDistanceDataByJson (JSONObject jsonObject, SimulationRequest_Dto simulation) {
+	public GoogleAPIDistanceResponse_Dto getDistanceDataByJson (JSONObject jsonObject, SimulationRequestGoogle_Dto simulationRequestGoogle_Dto) {
 		GoogleAPIDistanceResponse_Dto distanceResponse_dto = new GoogleAPIDistanceResponse_Dto();
 		SeparationElementTools separationElementObj = new SeparationElementTools();
 
@@ -39,19 +40,19 @@ public class DistanceAPIData_Component {
 					
 					if(status.equals("OK")) {
 			            JsonNode distanceNode = elementObj.path(ANALYSE_ELEMENTS_DISTANCE);
-			            distanceResponse_dto.origin = simulation.address_origin;
-			            distanceResponse_dto.destination = simulation.address_destination;
+			            distanceResponse_dto.origin = simulationRequestGoogle_Dto.origin_from;
+			            distanceResponse_dto.destination = simulationRequestGoogle_Dto.destination_to;
 			            String distanceF = distanceNode.path(ANALYSE_ELEMENTS_TEXT).asText();
 			            String distanceM = distanceNode.path(ANALYSE_ELEMENTS_VALUE).asText();
 			            distanceResponse_dto.distanceM = Double.parseDouble(distanceM);
 			            distanceResponse_dto.distanceF = separationElementObj.getDistanceParse(distanceF);
-			            distanceResponse_dto.measureUnit = simulation.unity_measurement_distance_txt;
+			            distanceResponse_dto.measureUnit = simulationRequestGoogle_Dto.measurement;
 			            distanceResponse_dto.status = status;
 					}
 					else {
-			            distanceResponse_dto.origin = simulation.address_origin;
-			            distanceResponse_dto.destination = simulation.address_destination;
-			            distanceResponse_dto.measureUnit = simulation.unity_measurement_distance_txt;
+			            distanceResponse_dto.origin = simulationRequestGoogle_Dto.origin_from;
+			            distanceResponse_dto.destination = simulationRequestGoogle_Dto.destination_to;
+			            distanceResponse_dto.measureUnit = simulationRequestGoogle_Dto.measurement;
 			            distanceResponse_dto.distanceM = 0;
 			            distanceResponse_dto.distanceF = 0;
 			            distanceResponse_dto.status = status;

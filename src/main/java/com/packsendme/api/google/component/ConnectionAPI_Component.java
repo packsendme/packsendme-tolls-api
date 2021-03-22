@@ -14,10 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.packsendme.api.google.dto.SimulationRequestGoogle_Dto;
 import com.packsendme.lib.common.constants.generic.GoogleAPI_Constants;
 import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
 import com.packsendme.lib.common.response.Response;
-import com.packsendme.lib.simulation.http.SimulationRequest_Dto;
 
 
 enum UnityMeasurement {
@@ -43,7 +43,7 @@ public class ConnectionAPI_Component {
 	private final String UNITY_MEASUREMENT_MI = "imperial";
 	
 	
-	public ResponseEntity<String> connectionGoogleAPI(SimulationRequest_Dto simulation, String countryAddress, String typeAPI) {
+	public ResponseEntity<String> connectionGoogleAPI(SimulationRequestGoogle_Dto simulationRequestGoogle, String countryAddress, String typeAPI) {
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			
@@ -57,9 +57,9 @@ public class ConnectionAPI_Component {
 			    uriParam.put("address", countryAddress);
 			}
 			else {
-			    uriParam.put("origin", simulation.address_origin);
-			    uriParam.put("destination", simulation.address_destination);
-			    uriParam.put("units", getUnity(simulation.unity_measurement_distance_txt));
+			    uriParam.put("origin", simulationRequestGoogle.origin_from);
+			    uriParam.put("destination", simulationRequestGoogle.destination_to);
+			    uriParam.put("units", getUnity(simulationRequestGoogle.measurement));
 			}
 		    uriParam.put("key", key_api);
 		    uriParam.put("travel_mode", "DRIVING");

@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.packsendme.api.google</groupId>
-	<artifactId>packsendme-google-api</artifactId>
+	<artifactId>pcks-roadway-google-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>packsendme-google-api</name>
+	<name>pcks-roadway-google-api</name>
 	<description>API Google -> Tolls and Distance</description>
 
 	<parent>
@@ -59,6 +59,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.packsendme.lib.roadway</groupId>
+			<artifactId>pcks-roadbrewa-roadway-lib</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.packsendme.lib.common</groupId>
 			<artifactId>packsendme-common-lib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -69,21 +75,9 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.packsendme.bre.roadway</groupId>
-  			<artifactId>packsendme-roadway-bre</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
-		  	<groupId>com.packsendme.bre.tollsfuel</groupId>
-  			<artifactId>packsendme-tollsfuel-bre</artifactId>
-  			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-  			
  		<dependency>
-			<groupId>com.packsendme.lib.entity.simulation</groupId>
-  			<artifactId>packsendme-simulation-lib</artifactId>
+			<groupId>pcks.roadway.lib.simulation</groupId>
+  			<artifactId>pcks-roadway-simulation-lib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
@@ -127,6 +121,23 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.0</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-redis</artifactId>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>io.lettuce</groupId>
+		            <artifactId>lettuce-core</artifactId>
+		        </exclusion>
+		    </exclusions>            
+		</dependency>     
+ 
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		</dependency>
+		
 
 	</dependencies>
 

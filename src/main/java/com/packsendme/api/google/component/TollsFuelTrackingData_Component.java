@@ -1,29 +1,20 @@
 package com.packsendme.api.google.component;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestHeader;
 
-import com.google.gson.Gson;
-import com.packsendme.api.google.config.Cache_Config;
-import com.packsendme.api.google.controller.IBusinessManager_SA_Client;
-import com.packsendme.lib.common.constants.generic.HttpExceptionPackSend;
-import com.packsendme.lib.common.constants.generic.Region_Constants;
-import com.packsendme.lib.common.response.Response;
-import com.packsendme.tollsfuel.bre.model.TollsFuelBRE_Model;
+import com.packsendme.api.google.dao.TollsFuelCacheImpl_Dao;
+import com.packsendme.roadbrewa.entity.TollsFuel;
 
 @Component
 @EnableFeignClients(basePackages="com.packsendme.api.google.controller")
-@ComponentScan("com.packsendme.api.google.config")
+@ComponentScan("com.packsendme.api.google.dao")
 public class TollsFuelTrackingData_Component {
 	
 	@Autowired
@@ -32,13 +23,9 @@ public class TollsFuelTrackingData_Component {
 	@Autowired
 	RegionCountryRoadway_Component location_component;
 	
-	@Autowired(required=true)
-	IBusinessManager_SA_Client businessManager_SA_Client;
-	
 	@Autowired
-	private Cache_Config cache_config;
-	
-	
+	TollsFuelCacheImpl_Dao tollsFuelCache_Dao;
+
 	private final String ANALYSE_ARRAY_RESULT = "results";
 	private final String ANALYSE_ELEMENT_ADDRESS = "address_components";
 	private final String ANALYSE_ELEMENT_SHORTNAME = "short_name";
@@ -83,41 +70,15 @@ public class TollsFuelTrackingData_Component {
 		}
 	}
 	
-	public TollsFuelBRE_Model getTollsFuelBREFromCache(JSONObject regionJsonObj, Map header) {
-		Gson gson = new Gson();
-		TollsFuelBRE_Model tollsFuelObj = null;
-		
-		String regionCountry = getRegionCountryByJson(regionJsonObj);
-		String fuelRegionCache = getTollsFuelCacheName(regionCountry);
-
+	public TollsFuel getTollsFuelBREFromCache(String countryFind) {
+		TollsFuel tollsFuelObj = null;
 
 		System.out.println("===============================================================================");
-		System.out.println(" STATUS fuelRegionCache "+ fuelRegionCache);
-		System.out.println(" STATUS regionCountry "+ regionCountry);
+		System.out.println(" STATUS fuelRegionCache "+ countryFind);
 		System.out.println("===============================================================================");
-		
 		
 		try {
-			ResponseEntity<?> fuelResponse_Entity = businessManager_SA_Client.getTollsFuelBRE_SA(header.get("isoLanguageCode").toString(), header.get("isoCountryCode").toString(),
-					header.get("isoCurrencyCode").toString(),header.get("originApp").toString(),fuelRegionCache);
-			
-			if(fuelResponse_Entity.getStatusCode() == HttpStatus.ACCEPTED) {
-				String jsonPayload = fuelResponse_Entity.getBody().toString();
-				Response<Object> response = gson.fromJson(jsonPayload, Response.class);
-				if(response.getResponseCode() == HttpExceptionPackSend.FOUND_BUSINESS_RULE.value()) {
-					System.out.println(" MY OBJECT  "+ response.getBody().toString());
-					String jsonObject = response.getBody().toString();
-					tollsFuelObj = gson.fromJson(jsonObject, TollsFuelBRE_Model.class);
-					System.out.println(" ");
-					System.out.println(" ");
-					System.out.println("===============================================================================");
-					System.out.println("TOLLS PRICE "+ tollsFuelObj.tollsfuelPriceCountry.size());
-					System.out.println("getFuelPriceFromObjBRE "+ tollsFuelObj.name_rule);
-					System.out.println("===============================================================================");
-					System.out.println(" ");
-					System.out.println(" ");
-				}
-			}
+			tollsFuelObj = tollsFuelCache_Dao.findOne(countryFind);
 			return tollsFuelObj;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,23 +86,4 @@ public class TollsFuelTrackingData_Component {
 		}
 	}
 	
-
-	public String getTollsFuelCacheName(String region) {
-		String cache = null;
-		switch (region) {
-			case Region_Constants.EUROPE_REGION:
-				cache = cache_config.tollsfuelBRE_EURO;
-				break;
-			case Region_Constants.NORTH_AMERICA_REGION:
-				cache = cache_config.tollsfuelBRE_NA;
-				break;
-			case Region_Constants.SOUTH_AMERICA_REGION:
-				cache = cache_config.tollsfuelBRE_SA;
-				break;
-			default:
-				break;
-		}
-		return cache;
-	}
-
 }
