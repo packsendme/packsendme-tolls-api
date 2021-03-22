@@ -30,6 +30,7 @@ public class GoogleAPI_Controller {
 	@Autowired
 	private GoogleAPI_Service api_Service;
 	
+	/*
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping("/distance/{from}/{to}/{measurement}")
 	public ResponseEntity<?> getDistance(
@@ -48,6 +49,7 @@ public class GoogleAPI_Controller {
 		
 		return api_Service.getDistancesAPI(from,to,measurement,header);
 	}
+	*/
 	
 	
 	@GetMapping("/distance/{from}/{to}/{measurement}")
