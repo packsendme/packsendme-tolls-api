@@ -34,9 +34,6 @@ public class GoogleAPI_Service {
 	@Autowired
 	ConnectionAPI_Component connectionAPI;
 	
-	@Autowired(required=true)
-	SimulationRequestGoogle_Dto simulationRequestDto;
-	
 	SeparationElementTools elementTools = new SeparationElementTools();
 	
 	private final String API_DISTANCE = "GOOGLE_PLACE_DISNTACE";
@@ -50,7 +47,7 @@ public class GoogleAPI_Service {
 		String trackingJsonBody = null, geocodeJsonBody = null;
 		try {
 			
-			simulationRequestDto = new SimulationRequestGoogle_Dto(from, to, measurement);
+			SimulationRequestGoogle_Dto simulationRequestDto = new SimulationRequestGoogle_Dto(from, to, measurement);
 
 			System.out.println(" ");
 			System.out.println("======    PARAMETROS  1  ========================================================");
@@ -107,7 +104,7 @@ public class GoogleAPI_Service {
 	public ResponseEntity<?> getDistancesAPI(String from, String to, String measurement, Map header) {
 		Response<GoogleAPIDistanceResponse_Dto> responseObj = null;
 		GoogleAPIDistanceResponse_Dto distanceResponse_dto = new GoogleAPIDistanceResponse_Dto();
-		simulationRequestDto = new SimulationRequestGoogle_Dto(from, to, measurement);
+		SimulationRequestGoogle_Dto simulationRequestDto = new SimulationRequestGoogle_Dto(from, to, measurement);
 
 		try {
 		    ResponseEntity<String> response = connectionAPI.connectionGoogleAPI(simulationRequestDto, null, API_DISTANCE);

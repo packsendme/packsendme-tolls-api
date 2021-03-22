@@ -1,18 +1,12 @@
 package com.packsendme.api.google.dto;
 
-import java.io.Serializable;
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter 
 @Setter 
-public class SimulationRequestGoogle_Dto implements Serializable {
+public class SimulationRequestGoogle_Dto{
 	
-	/**
-	 * 
-	 */
-	public static final long serialVersionUID = 1L;
 	public String origin_from;
 	public String destination_to;
 	public String measurement;
