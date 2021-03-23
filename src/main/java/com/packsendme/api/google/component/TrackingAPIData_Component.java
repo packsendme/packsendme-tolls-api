@@ -62,6 +62,7 @@ public class TrackingAPIData_Component {
 		int tolls_amount = 0;
         String countryName = null, countryNameChange = null;
         JSONObject jsonHtmlInstLast = null;
+        boolean countryChange = false;
         GoogleAPIDistanceResponse_Dto distance_dto = new GoogleAPIDistanceResponse_Dto();
   		Map<String, RoadwayTrackingResponse_Dto> tracking_map = new HashMap<String, RoadwayTrackingResponse_Dto>();
   		RoadwayTrackingResponse_Dto  trackingResponse_Dto = null; 
@@ -104,6 +105,7 @@ public class TrackingAPIData_Component {
 				    
 					// Find Distance
 				    if(countryNameChange != null) {
+				    	countryChange = false;
 					    if(countryNameChange.equals(countryName)) {
 					    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulationRequestDto);
 					    	countryNameChange = null;
@@ -112,6 +114,7 @@ public class TrackingAPIData_Component {
  
 				    // Change Country in Direction/Country JSON-GOOGLE
 				    if (separationElementObj.analyzeContain(scheme,ANALYSE_PATTERN_COUNTRY) == true){
+				    	countryChange = true;
 				    	// Find Distance
 				    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulationRequestDto);
 				    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, distance_dto);
@@ -126,15 +129,17 @@ public class TrackingAPIData_Component {
 				    }
 				    jsonHtmlInstLast = jsonHtmlInst;
 				}
-				
-			    System.out.println(" ====================================================================");
-			    System.out.println(" 2 ENTROU AQUI");
-				//distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulationRequestDto);
-				System.out.println(" 2 distance_dto M "+ distance_dto.distanceM);
-				System.out.println(" 2 distance_dto F "+ distance_dto.distanceF);
-				System.out.println(" 2 countryName "+ countryName);
-				System.out.println(" 2 tolls_amount "+ tolls_amount);
-		    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, distance_dto);
+			    if (countryChange == false) {
+				    System.out.println(" ====================================================================");
+				    System.out.println(" 2 ENTROU AQUI");
+			    	distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulationRequestDto);
+			    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, distance_dto);
+			    	System.out.println(" 2 distance_dto M "+ distance_dto.distanceM);
+					System.out.println(" 2 distance_dto F "+ distance_dto.distanceF);
+					System.out.println(" 2 countryName "+ countryName);
+					System.out.println(" 2 tolls_amount "+ tolls_amount);
+			    }
+			    
 			    tracking_map.put(countryName, trackingResponse_Dto);
 			    System.out.println(" 2 SAIU AQUI");
 			    System.out.println(" ====================================================================");
