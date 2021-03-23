@@ -44,7 +44,7 @@ public class GoogleAPI_Service {
 	
 	public ResponseEntity<?> getTrackingRoadwayAPI(String from, String to, String measurement, Map header) {
 		Response<GoogleAPITrackingResponse_Dto> responseObj = null;
-		String trackingJsonBody = null, geocodeJsonBody = null;
+		String trackingJsonBody = null;
 		try {
 			
 			SimulationRequestGoogle_Dto simulationRequestDto = new SimulationRequestGoogle_Dto(from, to, measurement);
@@ -65,25 +65,15 @@ public class GoogleAPI_Service {
 			
 			// Call API Google -> Direction/Geocode
 			ResponseEntity<String> responseAPITracking = connectionAPI.connectionGoogleAPI(simulationRequestDto, null, API_TOLLS);
-			ResponseEntity<String> responseAPIGeocode = connectionAPI.connectionGoogleAPI(null, regionCountry, GoogleAPI_Constants.API_GEOCODE);
 			
 			// Result APIs Direction/Geocode
-			if ((responseAPITracking.getStatusCode() == HttpStatus.OK) && (responseAPIGeocode.getStatusCode() == HttpStatus.OK)) {
+			if ((responseAPITracking.getStatusCode() == HttpStatus.OK)) {
 				trackingJsonBody = responseAPITracking.getBody();
-				geocodeJsonBody = responseAPIGeocode.getBody();
 		    	JSONParser parser = new JSONParser();
 		    	JSONObject trackingJsonObject = (JSONObject) parser.parse(trackingJsonBody);
-		    	JSONObject geocodeJsonObject = (JSONObject) parser.parse(geocodeJsonBody);
-		    	
-		    	System.out.println(" ");
-				System.out.println("======    PARAMETROS  4  ========================================================");
-				System.out.println(" GoogleAPITrackingResponse_Dto regionCountry "+ geocodeJsonObject.toString());
-				System.out.println("===============================================================================");
-
+		    	//JSONObject geocodeJsonObject = (JSONObject) parser.parse(geocodeJsonBody);
 			    
-	    		// GET Fuel AND Tolls BRE-Cache 
-//	    		TollsFuel tollsFuelObj = tollsFuelRoadwayData_Component.getTollsFuelBREFromCache(geocodeJsonObject, header) ;
-		    	
+	    	
 	    		// Get TrackingBRE -> ParserData
     			trackingResponse_Dto = trackingData_Component.getTrackingDataByJson(trackingJsonObject, simulationRequestDto);
 		    	responseObj = new Response<GoogleAPITrackingResponse_Dto>(HttpExceptionPackSend.GOOGLEAPI_PLACE.value(),HttpExceptionPackSend.GOOGLEAPI_PLACE.getAction(), trackingResponse_Dto);

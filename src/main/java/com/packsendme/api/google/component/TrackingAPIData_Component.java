@@ -129,7 +129,7 @@ public class TrackingAPIData_Component {
 				
 			    System.out.println(" ====================================================================");
 			    System.out.println(" 2 ENTROU AQUI");
-				distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulationRequestDto);
+				//distance_dto = getLatLongForDistance(jsonHtmlInstLast, ANALYSE_PATTERN_END, simulationRequestDto);
 				System.out.println(" 2 distance_dto M "+ distance_dto.distanceM);
 				System.out.println(" 2 distance_dto F "+ distance_dto.distanceF);
 				System.out.println(" 2 countryName "+ countryName);
