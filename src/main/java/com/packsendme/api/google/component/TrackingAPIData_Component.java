@@ -92,6 +92,7 @@ public class TrackingAPIData_Component {
 
 			    	
 			    	// Find Distance (Origin Location)
+			    	distance_dto = new GoogleAPIDistanceResponse_Dto();
 		        	distance_dto = getLatLongForDistance(jsonStepsX, ANALYSE_PATTERN_START, simulationRequestDto);
 			    	
         	    	String countryOrigin = jsonStepsX.get(ANALYSE_ELEMENT_ADDRESS).toString();
@@ -107,6 +108,7 @@ public class TrackingAPIData_Component {
 				    if(countryNameChange != null) {
 				    	countryChange = false;
 					    if(countryNameChange.equals(countryName)) {
+					    	distance_dto = new GoogleAPIDistanceResponse_Dto();
 					    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulationRequestDto);
 					    	countryNameChange = null;
 			    		}
@@ -116,6 +118,7 @@ public class TrackingAPIData_Component {
 				    if (separationElementObj.analyzeContain(scheme,ANALYSE_PATTERN_COUNTRY) == true){
 				    	countryChange = true;
 				    	// Find Distance
+				    	distance_dto = new GoogleAPIDistanceResponse_Dto();
 				    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_END, simulationRequestDto);
 				    	trackingResponse_Dto = setTrackingResponse_Dto(countryName, tolls_amount, distance_dto);
 						tolls_amount = 0;
@@ -143,7 +146,7 @@ public class TrackingAPIData_Component {
 			    tracking_map.put(countryName, trackingResponse_Dto);
 			    System.out.println(" 2 SAIU AQUI");
 			    System.out.println(" ====================================================================");
-
+			    trackingResponse_Dto = null;
 			}
 			if (tracking_map.size() > 0) {
 				googleTrackingResponse_dto.status = true;
