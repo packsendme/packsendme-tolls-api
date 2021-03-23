@@ -39,10 +39,23 @@ public class DistanceAPIData_Component {
 					
 					if(status.equals("OK")) {
 			            JsonNode distanceNode = elementObj.path(ANALYSE_ELEMENTS_DISTANCE);
+			            System.out.println(" ");
+			            System.out.println(" ===========| JsonNode |============ "+ distanceNode);
+
 			            distanceResponse_dto.origin = simulationRequestGoogle_Dto.origin_from;
 			            distanceResponse_dto.destination = simulationRequestGoogle_Dto.destination_to;
 			            String distanceF = distanceNode.path(ANALYSE_ELEMENTS_TEXT).asText();
 			            String distanceM = distanceNode.path(ANALYSE_ELEMENTS_VALUE).asText();
+
+			            System.out.println(" ");
+			            System.out.println(" ");
+			            System.out.println(" ===========| getDistanceDataByJson |============ ");
+			            	System.out.println(" distanceF "+ distanceF);
+			            	System.out.println(" distanceM "+ distanceM);
+			            System.out.println(" ================================================= ");
+			            System.out.println(" ");
+			            System.out.println(" ");
+
 			            distanceResponse_dto.distanceM = Double.parseDouble(distanceM);
 			            distanceResponse_dto.distanceF = separationElementObj.getDistanceParse(distanceF);
 			            distanceResponse_dto.measureUnit = simulationRequestGoogle_Dto.measurement;
