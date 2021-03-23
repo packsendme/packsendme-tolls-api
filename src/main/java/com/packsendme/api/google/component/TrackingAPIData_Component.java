@@ -1,5 +1,6 @@
 package com.packsendme.api.google.component;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -170,18 +171,19 @@ public class TrackingAPIData_Component {
 		
 		if(tolls_amount > 0) {
 			if(tollsFuelObjResult != null) {
-				
+				DecimalFormat df = new DecimalFormat("#.##");
 				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distanceF,
-						distance.distanceM,tollsFuelObjResult.fuelGasoline_price, tollsFuelObjResult.fuelDiesel_price);
+				distance.distanceM, Double.valueOf(df.format(tollsFuelObjResult.fuelGasoline_price)), Double.valueOf(df.format(tollsFuelObjResult.fuelDiesel_price)),
+				tollsFuelObjResult.current,distance.measureUnit);
 			}
 			else {
 				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distanceF, distance.distanceM,
-	    				AVERAGE_PRICE_DEFAULT,null);
+	    				AVERAGE_PRICE_DEFAULT,null, null, null);
 			}
 		}
 		else{
 			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance.distanceF,distance.distanceM,
-					tollsFuelObjResult.fuelGasoline_price,tollsFuelObjResult.fuelDiesel_price);
+					tollsFuelObjResult.fuelGasoline_price,tollsFuelObjResult.fuelDiesel_price,tollsFuelObjResult.current,distance.measureUnit);
 		}
 		return trackingResponse_dto;
 	}

@@ -97,7 +97,7 @@ public class ConnectionAPI_Component {
 		return unitM;
 	}
 	
-	
+
 	public String getGoogleAPIURL(String typeAPI) {
 		String api = null;
 		switch (typeAPI) {
