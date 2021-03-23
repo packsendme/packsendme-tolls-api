@@ -53,15 +53,6 @@ public class GoogleAPI_Service {
 			System.out.println("======    PARAMETROS  1  ========================================================");
 			System.out.println(" GoogleAPITrackingResponse_Dto Origin "+ from +" Destionation "+ to);
 			System.out.println("===============================================================================");
-
-			
-			String regionCountry = elementTools.subStringCountryFrom(from);
-			
-			System.out.println(" ");
-			System.out.println("======    PARAMETROS  2  ========================================================");
-			System.out.println(" GoogleAPITrackingResponse_Dto regionCountry "+ regionCountry);
-			System.out.println("===============================================================================");
-
 			
 			// Call API Google -> Direction/Geocode
 			ResponseEntity<String> responseAPITracking = connectionAPI.connectionGoogleAPI(simulationRequestDto, null, API_TOLLS);
@@ -71,8 +62,7 @@ public class GoogleAPI_Service {
 				trackingJsonBody = responseAPITracking.getBody();
 		    	JSONParser parser = new JSONParser();
 		    	JSONObject trackingJsonObject = (JSONObject) parser.parse(trackingJsonBody);
-		    	//JSONObject geocodeJsonObject = (JSONObject) parser.parse(geocodeJsonBody);
-			    
+	    
 	    	
 	    		// Get TrackingBRE -> ParserData
     			trackingResponse_Dto = trackingData_Component.getTrackingDataByJson(trackingJsonObject, simulationRequestDto);
