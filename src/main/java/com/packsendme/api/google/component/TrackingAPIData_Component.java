@@ -105,7 +105,7 @@ public class TrackingAPIData_Component {
 				    
 					// Find Distance
 				    if(countryNameChange != null) {
-				    	//countryChange = false;
+				    	countryChange = false;
 					    if(countryNameChange.equals(countryName)) {
 					    	distance_dto = getLatLongForDistance(jsonHtmlInst, ANALYSE_PATTERN_START, simulationRequestDto);
 					    	countryNameChange = null;
