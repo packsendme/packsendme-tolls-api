@@ -223,7 +223,7 @@ public class TrackingAPIData_Component {
     		simulationGoogle_Dto.measurement = simulationDto.measurement;
     		try {
     			String typeAPI = GoogleAPI_Constants.API_DISTANCE;
-    			ResponseEntity<String> distanceResponse = connectionGoogle.connectionGoogleAPI(simulationDto, null, typeAPI);
+    			ResponseEntity<String> distanceResponse = connectionGoogle.connectionGoogleAPI(simulationGoogle_Dto, null, typeAPI);
     			
     			if (distanceResponse.getStatusCode() == HttpStatus.OK) {
     				String jsonData = distanceResponse.getBody();
