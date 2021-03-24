@@ -1,6 +1,5 @@
 package com.packsendme.api.google.component;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,7 +24,7 @@ import com.packsendme.roadbrewa.entity.TollsFuel;
 @Component
 public class TrackingAPIData_Component {
 
-	private final Double AVERAGE_PRICE_DEFAULT = 0.0;
+	private final double AVERAGE_PRICE_DEFAULT = 0.0;
 
 	private final String ANALYSE_PATTERN_TOLLS = "Toll";
 	private final String ANALYSE_PATTERN_COUNTRY = "Entering";
@@ -165,26 +164,27 @@ public class TrackingAPIData_Component {
 	
 	private RoadwayTrackingResponse_Dto setTrackingResponse_Dto(String countryName, int tolls_amount, GoogleAPIDistanceResponse_Dto distance) {
 		RoadwayTrackingResponse_Dto trackingResponse_dto = null;
-
+		
 		//Find Fuel Price by Country
 		TollsFuel tollsFuelObjResult = getTollsFuelPriceFromCountry(countryName.trim());
 		
+		if(tollsFuelObjResult != null) {
+			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distanceF,
+			distance.distanceM, tollsFuelObjResult.fuelGasoline_price, tollsFuelObjResult.fuelDiesel_price, tollsFuelObjResult.current,distance.measureUnit);
+		}
+		else {
+			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distanceF, distance.distanceM,
+    				AVERAGE_PRICE_DEFAULT,AVERAGE_PRICE_DEFAULT, "", "");
+		}
+		
+		/*
 		if(tolls_amount > 0) {
-			if(tollsFuelObjResult != null) {
-				DecimalFormat df = new DecimalFormat("#.##");
-				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,tollsFuelObjResult.tolls_price,distance.distanceF,
-				distance.distanceM, Double.valueOf(df.format(tollsFuelObjResult.fuelGasoline_price)), Double.valueOf(df.format(tollsFuelObjResult.fuelDiesel_price)),
-				tollsFuelObjResult.current,distance.measureUnit);
-			}
-			else {
-				trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,tolls_amount,AVERAGE_PRICE_DEFAULT,distance.distanceF, distance.distanceM,
-	    				AVERAGE_PRICE_DEFAULT,null, null, null);
-			}
+			
 		}
 		else{
 			trackingResponse_dto = new RoadwayTrackingResponse_Dto(countryName,0,AVERAGE_PRICE_DEFAULT,distance.distanceF,distance.distanceM,
 					tollsFuelObjResult.fuelGasoline_price,tollsFuelObjResult.fuelDiesel_price,tollsFuelObjResult.current,distance.measureUnit);
-		}
+		}*/
 		return trackingResponse_dto;
 	}
 	
