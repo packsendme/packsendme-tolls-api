@@ -165,7 +165,7 @@ public class TrackingAPIData_Component {
 	
 	private RoadwayTrackingResponse_Dto setTrackingResponse_Dto(String countryName, int tolls_amount, GoogleAPIDistanceResponse_Dto distance) {
 		RoadwayTrackingResponse_Dto trackingResponse_dto = null;
-		DecimalFormat df2 = new DecimalFormat("#.##");
+		DecimalFormat df2 = new DecimalFormat("#.###");
 		
 		//Find Fuel Price by Country
 		TollsFuel tollsFuelObjResult = getTollsFuelPriceFromCountry(countryName.trim());
