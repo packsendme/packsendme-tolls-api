@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.packsendme.api.google</groupId>
-	<artifactId>packsendme-google-api</artifactId>
+	<artifactId>pcks-google-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>pcks-roadway-google-api</name>
+	<name>pcks-google-api</name>
 	<description>API Google -> Tolls and Distance</description>
 
 	<parent>
@@ -76,7 +76,7 @@
 		</dependency>
 		
  		<dependency>
-			<groupId>pcks.roadway.lib.simulation</groupId>
+			<groupId>com.packsendme.lib.roadway</groupId>
   			<artifactId>pcks-roadway-simulation-lib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
