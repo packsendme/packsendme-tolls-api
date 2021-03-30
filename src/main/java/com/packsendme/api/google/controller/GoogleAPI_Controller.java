@@ -51,7 +51,7 @@ public class GoogleAPI_Controller {
 	}
 	*/
 	
-	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping("/distance/{from}/{to}/{measurement}")
 	public ResponseEntity<?> getTracking(
 			@RequestHeader("isoLanguageCode") String isoLanguageCode, 

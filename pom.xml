@@ -66,7 +66,7 @@
 		
 		<dependency>
 			<groupId>com.packsendme.lib.common</groupId>
-			<artifactId>packsendme-common-lib</artifactId>
+			<artifactId>pcks-common-lib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		
