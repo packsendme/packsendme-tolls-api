@@ -44,6 +44,7 @@ public class TrackingAPIData_Component {
 	private final String ANALYSE_ELEMENT_DISTANCE = "distance";
 	private final String ANALYSE_ELEMENT_DURATION = "duration";
 	private final String ANALYSE_ELEMENT_VALUE = "value";
+	private final String ANALYSE_ELEMENT_TXT = "text";
 
 	
 	Map<Integer, String> latlongHistory_map = new HashMap<Integer, String>();
@@ -84,12 +85,13 @@ public class TrackingAPIData_Component {
 			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
 			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_VALUE).toString();
 			    	googleTrackingResponse_dto.distance_total = Double.parseDouble(distanceS);  //separationElementObj.getDistanceParse(distanceS);
+			    	googleTrackingResponse_dto.distanceF = totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString();
 			    	
 			    	// GET DURATION / SECOND
 			    	Map duration_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DURATION));
 			    	String durationS = duration_map.get(ANALYSE_ELEMENT_VALUE).toString();
 			    	googleTrackingResponse_dto.duration = Integer.parseInt(durationS);
-
+			    	googleTrackingResponse_dto.durationF = duration_map.get(ANALYSE_ELEMENT_TXT).toString();
 			    	
 			    	// Find Distance (Origin Location)
 			    	distance_dto = new GoogleAPIDistanceResponse_Dto();
