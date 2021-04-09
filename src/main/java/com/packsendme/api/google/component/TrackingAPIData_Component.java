@@ -82,18 +82,15 @@ public class TrackingAPIData_Component {
 			    	JSONObject jsonStepsX = (JSONObject) itLegs.next();
 			    	
 			    	// GET TOTAL DISTANCE
-			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
+/*			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
 			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_VALUE).toString();
-			    	googleTrackingResponse_dto.distance_total = Double.parseDouble(distanceS);  //separationElementObj.getDistanceParse(distanceS);
-			    	String distanceFS = totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString();
-			    	googleTrackingResponse_dto.distanceF = distanceFS;
+			    	googleTrackingResponse_dto.distance_total = Double.parseDouble(distanceS);  */
+			    	
 			    	
 			    	// GET DURATION / SECOND
 			    	Map duration_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DURATION));
 			    	String durationS = duration_map.get(ANALYSE_ELEMENT_VALUE).toString();
-			    	String durationFS = duration_map.get(ANALYSE_ELEMENT_TXT).toString();
 			    	googleTrackingResponse_dto.duration = Integer.parseInt(durationS);
-			    	googleTrackingResponse_dto.durationF = durationFS;
 			    	
 			    	// Find Distance (Origin Location)
 			    	distance_dto = new GoogleAPIDistanceResponse_Dto();
@@ -144,7 +141,7 @@ public class TrackingAPIData_Component {
 				System.out.println(" * distance_dto F "+ distance_dto.distanceF);
 				System.out.println(" * countryName "+ countryName);
 				System.out.println(" * tolls_amount "+ tolls_amount);
-			    
+				googleTrackingResponse_dto.distance_total = distance_dto.distanceF;
 			    tracking_map.put(countryName, trackingResponse_Dto);
 			    System.out.println(" ================================================================================================ ");
 			    trackingResponse_Dto = null;
