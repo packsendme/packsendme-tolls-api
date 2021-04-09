@@ -85,7 +85,14 @@ public class TrackingAPIData_Component {
 			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
 			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_VALUE).toString();
 			    	googleTrackingResponse_dto.distance_total = Double.parseDouble(distanceS);  //separationElementObj.getDistanceParse(distanceS);
-			    	googleTrackingResponse_dto.distanceF = totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString();
+				    
+			    	System.out.println(" ");
+			    	System.out.println(" ===============| DISTANCIA F | =====================================================");
+			    	System.out.println(" | DISTANCIA F | "+ totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString());
+			    	System.out.println(" ====================================================================================");
+			    	System.out.println(" ");
+	
+			    	googleTrackingResponse_dto.distanceF = "RICARDO"; // totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString();
 			    	
 			    	// GET DURATION / SECOND
 			    	Map duration_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DURATION));
