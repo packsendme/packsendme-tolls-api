@@ -85,20 +85,15 @@ public class TrackingAPIData_Component {
 			    	Map totalDistance_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DISTANCE));
 			    	String distanceS = totalDistance_map.get(ANALYSE_ELEMENT_VALUE).toString();
 			    	googleTrackingResponse_dto.distance_total = Double.parseDouble(distanceS);  //separationElementObj.getDistanceParse(distanceS);
-				    
-			    	System.out.println(" ");
-			    	System.out.println(" ===============| DISTANCIA F | =====================================================");
-			    	System.out.println(" | DISTANCIA F | "+ totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString());
-			    	System.out.println(" ====================================================================================");
-			    	System.out.println(" ");
-	
-			    	googleTrackingResponse_dto.distanceF = "RICARDO"; // totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString();
+			    	String distanceFS = totalDistance_map.get(ANALYSE_ELEMENT_TXT).toString();
+			    	googleTrackingResponse_dto.distanceF = distanceFS;
 			    	
 			    	// GET DURATION / SECOND
 			    	Map duration_map = ((Map)jsonStepsX.get(ANALYSE_ELEMENT_DURATION));
 			    	String durationS = duration_map.get(ANALYSE_ELEMENT_VALUE).toString();
+			    	String durationFS = duration_map.get(ANALYSE_ELEMENT_TXT).toString();
 			    	googleTrackingResponse_dto.duration = Integer.parseInt(durationS);
-			    	googleTrackingResponse_dto.durationF = duration_map.get(ANALYSE_ELEMENT_TXT).toString();
+			    	googleTrackingResponse_dto.durationF = durationFS;
 			    	
 			    	// Find Distance (Origin Location)
 			    	distance_dto = new GoogleAPIDistanceResponse_Dto();
