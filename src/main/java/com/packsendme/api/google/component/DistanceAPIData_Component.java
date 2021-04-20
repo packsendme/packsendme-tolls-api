@@ -55,8 +55,8 @@ public class DistanceAPIData_Component {
 			            distanceResponse_dto.origin = simulationRequestGoogle_Dto.origin_from;
 			            distanceResponse_dto.destination = simulationRequestGoogle_Dto.destination_to;
 			            distanceResponse_dto.measureUnit = simulationRequestGoogle_Dto.measurement;
-			            distanceResponse_dto.distanceM = 0;
-			            distanceResponse_dto.distanceF = 0;
+			            distanceResponse_dto.distanceM = 0.0;
+			            distanceResponse_dto.distanceF = 0.0;
 			            distanceResponse_dto.status = status;
 					}
 				}	

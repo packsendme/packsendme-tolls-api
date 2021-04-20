@@ -48,7 +48,7 @@ public class SeparationElementTools {
 	}
 
 
-	public double getDistanceParse(String contain) {
+	public Double getDistanceParse(String contain) {
         String distanceS = StringUtils.substring(contain, 0, contain.length() - 2);
     	String formatDistance = distanceS.replace(",", ".");
         return Double.parseDouble(formatDistance);
